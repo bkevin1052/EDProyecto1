@@ -16,8 +16,8 @@ namespace LibreriaDeClases.Clases
         public Nodo<T> padre;
         public Nodo()
         {
-            //nodo = new Nodo[Raiz.grado * 2 + 3];
-            //valores = new int[Raiz.grado * 2 + 1];
+            nodo = new Nodo<T>[Raiz<T>.grado * 2 + 3];
+            valores = new int[Raiz<T>.grado * 2 + 1];
         }
     }
 }
