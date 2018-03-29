@@ -14,10 +14,11 @@ namespace LibreriaDeClases.Clases
         public bool tengoHijos = false;
         public int ocupados = 0;
         public Nodo<T> padre;
+        
         public Nodo()
         {
-            nodo = new Nodo<T>[Raiz<T>.grado * 2 + 3];
-            valores = new int[Raiz<T>.grado * 2 + 1];
+            nodo = new Nodo<T>[Raiz<T>.Grado * 2 + 3];
+            valores = new T[Raiz<T>.Grado * 2 + 1];
         }
     }
 }
