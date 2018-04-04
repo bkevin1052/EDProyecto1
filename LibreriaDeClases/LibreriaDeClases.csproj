@@ -43,10 +43,9 @@
     <Compile Include="Clases\BArbol.cs" />
     <Compile Include="Clases\BNodo.cs" />
     <Compile Include="Clases\BEntry.cs" />
+    <Compile Include="Interfaces\IBArbol.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
