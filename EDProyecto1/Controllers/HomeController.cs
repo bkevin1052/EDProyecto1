@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using LibreriaDeClases.Clases;
 using System.Web.Mvc;
 
 namespace EDProyecto1.Controllers
@@ -10,6 +11,8 @@ namespace EDProyecto1.Controllers
     {
         public ActionResult Index()
         {
+            BArbol<string, string> arbol = new BArbol<string, string>(4);
+            arbol.Insertar("Hola", "123");
             return View();
         }
 
