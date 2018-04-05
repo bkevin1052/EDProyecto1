@@ -7,6 +7,7 @@ namespace EDProyecto1.Models
 {
     public class Usuario
     {
+        //Crear atributos de la clase Usuario
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public int Edad { get; set; }

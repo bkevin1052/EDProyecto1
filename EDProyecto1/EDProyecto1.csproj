@@ -142,6 +142,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ArchivoController.cs" />
+    <Compile Include="Controllers\AudiovisualController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DBContext\DefaultConnection.cs" />
     <Compile Include="Global.asax.cs">
@@ -192,6 +194,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Archivo\" />
+    <Folder Include="Views\Audiovisual\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
