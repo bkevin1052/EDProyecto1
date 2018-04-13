@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace LibreriaDeClases.Clases
 {
-    public class Entry<TK, TP> : IEquatable<Entry<TK, TP>>
+    public class Entry<TKey, T> : IEquatable<Entry<TKey, T>>
     {
-        public TK LLave { get; set; }
+        public TKey LLave { get; set; }
 
-        public TP Apuntador { get; set; }
+        public T Apuntador { get; set; }
 
-        public bool Equals(Entry<TK, TP> other)
+        public bool Equals(Entry<TKey, T> other)
         {
            return this.LLave.Equals(other.LLave) && this.Apuntador.Equals(other.Apuntador);
         }

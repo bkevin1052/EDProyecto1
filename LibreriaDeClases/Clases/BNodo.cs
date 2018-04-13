@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaDeClases.Clases
 {
-    public class BNodo<TK, TP>
+    public class BNodo<TKey, T>
     {
 
         private int grado;
@@ -14,15 +14,15 @@ namespace LibreriaDeClases.Clases
         public BNodo(int grado)
         {
             this.grado = grado;
-            this.Hijos = new List<BNodo<TK, TP>>(grado);
-            this.Entradas = new List<Entry<TK, TP>>(grado);
+            this.Hijos = new List<BNodo<TKey, T>>(grado);
+            this.Entradas = new List<Entry<TKey, T>>(grado);
         }
 
-        public List<BNodo<TK, TP>> Hijos { get; set; }
+        public List<BNodo<TKey, T>> Hijos { get; set; }
 
-        public List<Entry<TK, TP>> Entradas { get; set; }
+        public List<Entry<TKey, T>> Entradas { get; set; }
 
-        public bool IsLeaf
+        public bool EsHoja
         {
             get
             {
@@ -30,17 +30,15 @@ namespace LibreriaDeClases.Clases
             }
         }
         
-        public bool HasReachedMaxEntries
+        public bool AlcanzaMaximaEntrada
         {
             get
             {
-                return this.Entradas.Count == (2 * this.grado) - 1;
+                return this.Entradas.Count == (2*this.grado) - 1;
             }
         }
 
-
-
-        public bool HasReachedMinEntries
+        public bool AlcanzaMinimaEntrada
         {
             get
             {
