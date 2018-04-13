@@ -60,7 +60,7 @@ namespace EDProyecto1.Controllers
                         temp.Nombre = itemtemp.Nombre;
                         temp.Anio = int.Parse(itemtemp.Anio);
                         temp.Genero = itemtemp.Genero;
-                        Nodo<Audiovisual> n = new Nodo<Audiovisual>();
+                        //BNodo<Audiovisual> n = new BNodo<Audiovisual>();
                         if (itemtemp.Tipo == "Show")
                         {
 

@@ -62,9 +62,9 @@ namespace LibreriaDeClases.Clases
             return node.EsHoja ? null : this.BusquedaInterna(node.Hijos[i], key);
         }
 
-        public void Delete(TKey keyToDelete)
+        public void Eliminar(TKey keyToDelete)
         {
-            this.DeleteInternal(this.Raiz, keyToDelete);
+            this.EliminarInterno(this.Raiz, keyToDelete);
             // Si la ultima raiz de la entrada fue movida a un nodo hijo la remueve
             if (this.Raiz.Entradas.Count == 0 && !this.Raiz.EsHoja)
             {
@@ -74,7 +74,7 @@ namespace LibreriaDeClases.Clases
 
         }
 
-        private void DeleteInternal(BNodo<TKey, T> nodo, TKey LlaveEliminar)
+        private void EliminarInterno(BNodo<TKey, T> nodo, TKey LlaveEliminar)
         {
             int i = nodo.Entradas.TakeWhile(entrada => LlaveEliminar.CompareTo(entrada.LLave) > 0).Count();
             // Encontro la llave en un nodo, la elimina
@@ -97,9 +97,7 @@ namespace LibreriaDeClases.Clases
         private void EliminarLlaveSubArbol(BNodo<TKey, T> NodoPadre, TKey LlaveEliminar, int IndiceSubArbol)
         {
             BNodo<TKey, T> NodoHijo = NodoPadre.Hijos[IndiceSubArbol];
-            // node has reached min # of entries, and removing any from it will break the btree property,
-            // so this block makes sure that the "child" has at least "degree" # of nodes by moving an 
-            // entry from a sibling node or merging nodes
+            
 
             if (NodoHijo.AlcanzaMinimaEntrada)
             {
@@ -109,8 +107,6 @@ namespace LibreriaDeClases.Clases
                 BNodo<TKey, T> HijoDerecho = IndiceSubArbol < NodoPadre.Hijos.Count - 1 ? NodoPadre.Hijos[indiceDerecho] : null;
                 if (HijoIzquierdo != null && HijoIzquierdo.Entradas.Count > this.Grado - 1)
                 {
-                    // left sibling has a node to spare, so this moves one node from left sibling 
-                    // into parent's node and one node from parent into this current node ("child")
                     NodoHijo.Entradas.Insert(0, NodoPadre.Entradas[IndiceSubArbol]);
                     NodoPadre.Entradas[IndiceSubArbol] = HijoIzquierdo.Entradas.Last();
                     HijoIzquierdo.Entradas.RemoveAt(HijoIzquierdo.Entradas.Count - 1);
@@ -122,9 +118,7 @@ namespace LibreriaDeClases.Clases
                     }
                 }
                 else if (HijoDerecho != null && HijoDerecho.Entradas.Count > this.Grado - 1)
-                {
-                    // right sibling has a node to spare, so this moves one node from right sibling 
-                    // into parent's node and one node from parent into this current node ("child")
+                {)
 
                     NodoHijo.Entradas.Add(NodoPadre.Entradas[IndiceSubArbol]);
                     NodoPadre.Entradas[IndiceSubArbol] = HijoDerecho.Entradas.First();
@@ -138,7 +132,6 @@ namespace LibreriaDeClases.Clases
                 }
                 else
                 {
-                    // this block merges either left or right sibling into the current node "child"
                     if (HijoIzquierdo != null)
                     {
                         NodoHijo.Entradas.Insert(0, NodoPadre.Entradas[IndiceSubArbol]);
@@ -171,7 +164,7 @@ namespace LibreriaDeClases.Clases
                     }
                 }
             }
-            this.DeleteInternal(NodoHijo, LlaveEliminar);
+            this.EliminarInterno(NodoHijo, LlaveEliminar);
         }
 
         private void EliminarLlaveNodo(BNodo<TKey, T> nodo, TKey LlaveEliminar, int indiceLlaveNodo)
@@ -181,54 +174,32 @@ namespace LibreriaDeClases.Clases
                 nodo.Entradas.RemoveAt(indiceLlaveNodo);
                 return;
             }
-
             BNodo<TKey, T> predecesorHijo= nodo.Hijos[indiceLlaveNodo];
-
             if (predecesorHijo.Entradas.Count >= this.Grado)
-
             {
-
-                Entry<TKey, T> predecessor = this.DeletePredecessor(predecesorHijo);
-
+                Entry<TKey, T> predecessor = this.EliminarPredecesor(predecesorHijo);
                 nodo.Entradas[indiceLlaveNodo] = predecessor;
-
             }
-
             else
-
             {
-
                 BNodo<TKey, T> succesorHijo = nodo.Hijos[indiceLlaveNodo + 1];
-
                 if (succesorHijo.Entradas.Count >= this.Grado)
-
                 {
-
-                    Entry<TKey, T> successor = this.DeleteSuccessor(predecesorHijo);
-
+                    Entry<TKey, T> successor = this.EliminarSucesor(predecesorHijo);
                     nodo.Entradas[indiceLlaveNodo] = successor;
 
                 }
-
                 else
-
                 {
-
                     predecesorHijo.Entradas.Add(nodo.Entradas[indiceLlaveNodo]);
-
                     predecesorHijo.Entradas.AddRange(succesorHijo.Entradas);
-
                     predecesorHijo.Hijos.AddRange(succesorHijo.Hijos);
 
 
 
                     nodo.Entradas.RemoveAt(indiceLlaveNodo);
-
                     nodo.Hijos.RemoveAt(indiceLlaveNodo + 1);
-
-
-
-                    this.DeleteInternal(predecesorHijo, LlaveEliminar);
+                    this.EliminarInterno(predecesorHijo, LlaveEliminar);
 
                 }
 
@@ -236,7 +207,7 @@ namespace LibreriaDeClases.Clases
 
         }
 
-        private Entry<TKey, T> DeletePredecessor(BNodo<TKey, T> nodo)
+        private Entry<TKey, T> EliminarPredecesor(BNodo<TKey, T> nodo)
         {
             if (nodo.EsHoja)
             {
@@ -244,10 +215,10 @@ namespace LibreriaDeClases.Clases
                 nodo.Entradas.RemoveAt(nodo.Entradas.Count - 1);
                 return result;
             }
-            return this.DeletePredecessor(nodo.Hijos.Last());
+            return this.EliminarPredecesor(nodo.Hijos.Last());
         }
 
-        private Entry<TKey, T> DeleteSuccessor(BNodo<TKey, T> nodo)
+        private Entry<TKey, T> EliminarSucesor(BNodo<TKey, T> nodo)
         {
             if (nodo.EsHoja)
             {
@@ -255,7 +226,7 @@ namespace LibreriaDeClases.Clases
                 nodo.Entradas.RemoveAt(0);
                 return result;
             }
-            return this.DeletePredecessor(nodo.Hijos.First());
+            return this.EliminarPredecesor(nodo.Hijos.First());
         }
 
         private void DividirHijo(BNodo<TKey, T> padreNodo, int nodoCorrer, BNodo<TKey, T> nodoMover)
@@ -267,7 +238,7 @@ namespace LibreriaDeClases.Clases
 
             padreNodo.Hijos.Insert(nodoCorrer + 1, nuevoNodo);
 
-            nuevoNodo.Entradas.AddRange(nodoMover.Entradas.GetRange(this.Grado, this.Grado - 1));
+            nuevoNodo.Entradas.AddRange(nodoMover.Entradas.GetRange(this.Grado , this.Grado-1));
 
             nodoMover.Entradas.RemoveRange(this.Grado - 1, this.Grado);
             if (!nodoMover.EsHoja)
