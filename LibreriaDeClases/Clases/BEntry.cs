@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibreriaDeClases.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaDeClases.Clases
 {
-    public class Entry<TKey, T> : IEquatable<Entry<TKey, T>>
+    public class Entry<TKey, T> : IEquatable<Entry<TKey, T>>,IEntry<TKey, T>
     {
         public TKey LLave { get; set; }
 

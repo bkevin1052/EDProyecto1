@@ -44,6 +44,8 @@
     <Compile Include="Clases\BNodo.cs" />
     <Compile Include="Clases\BEntry.cs" />
     <Compile Include="Interfaces\IBArbol.cs" />
+    <Compile Include="Interfaces\IEntry.cs" />
+    <Compile Include="Interfaces\INodo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

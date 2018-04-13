@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaDeClases.Clases
 {
-    public class BArbol <TKey, T> where TKey : IComparable<TKey>
+    public class BArbol <TKey, T> where TKey : IComparable<TKey>, IBArbol<TKey,T>
     {
 
         public BNodo<TKey, T> Raiz { get; private set; }
@@ -51,6 +51,29 @@ namespace LibreriaDeClases.Clases
 
         }
 
+        private void InsertarNoLleno(BNodo<TKey, T> nodo, TKey nuevaLlave, T nuevoApuntador)
+        {
+            int posicionInsertar = nodo.Entradas.TakeWhile(entry => nuevaLlave.CompareTo(entry.LLave) >= 0).Count();
+            // Es hoja
+            if (nodo.EsHoja)
+            {
+                nodo.Entradas.Insert(posicionInsertar, new Entry<TKey, T>() { LLave = nuevaLlave, Apuntador = nuevoApuntador });
+                return;
+            }
+            // No es hoja
+
+            BNodo<TKey, T> hijo = nodo.Hijos[posicionInsertar];
+            if (hijo.AlcanzaMaximaEntrada)
+            {
+                this.DividirHijo(nodo, posicionInsertar, hijo);
+                if (nuevaLlave.CompareTo(nodo.Entradas[posicionInsertar].LLave) > 0)
+                {
+                    posicionInsertar++;
+                }
+            }
+            this.InsertarNoLleno(nodo.Hijos[posicionInsertar], nuevaLlave, nuevoApuntador);
+        }
+
         private Entry<TKey, T> BusquedaInterna(BNodo<TKey, T> node, TKey key)
         {
             int i = node.Entradas.TakeWhile(entry => key.CompareTo(entry.LLave) > 0).Count();
@@ -62,9 +85,9 @@ namespace LibreriaDeClases.Clases
             return node.EsHoja ? null : this.BusquedaInterna(node.Hijos[i], key);
         }
 
-        public void Eliminar(TKey keyToDelete)
+        public void Eliminar(TKey LlaveEliminar)
         {
-            this.EliminarInterno(this.Raiz, keyToDelete);
+            this.EliminarInterno(this.Raiz, LlaveEliminar);
             // Si la ultima raiz de la entrada fue movida a un nodo hijo la remueve
             if (this.Raiz.Entradas.Count == 0 && !this.Raiz.EsHoja)
             {
@@ -118,7 +141,7 @@ namespace LibreriaDeClases.Clases
                     }
                 }
                 else if (HijoDerecho != null && HijoDerecho.Entradas.Count > this.Grado - 1)
-                {)
+                {
 
                     NodoHijo.Entradas.Add(NodoPadre.Entradas[IndiceSubArbol]);
                     NodoPadre.Entradas[IndiceSubArbol] = HijoDerecho.Entradas.First();
@@ -234,7 +257,7 @@ namespace LibreriaDeClases.Clases
 
             var nuevoNodo = new BNodo<TKey, T>(this.Grado);
 
-            padreNodo.Entradas.Insert(nodoCorrer, nodoMover.Entradas[this.Grado - 1]);
+            padreNodo.Entradas.Insert(nodoCorrer, nodoMover.Entradas[this.Grado-1]);
 
             padreNodo.Hijos.Insert(nodoCorrer + 1, nuevoNodo);
 
@@ -250,27 +273,5 @@ namespace LibreriaDeClases.Clases
 
         }
 
-        private void InsertarNoLleno(BNodo<TKey, T> nodo, TKey nuevaLlave, T nuevoApuntador)
-        {
-            int posicionInsertar= nodo.Entradas.TakeWhile(entry => nuevaLlave.CompareTo(entry.LLave) >= 0).Count();
-            // Es hoja
-            if (nodo.EsHoja)
-            {
-                nodo.Entradas.Insert(posicionInsertar, new Entry<TKey, T>() {  LLave = nuevaLlave, Apuntador = nuevoApuntador });
-                return;
-            }
-            // No es hoja
-
-            BNodo<TKey, T> hijo = nodo.Hijos[posicionInsertar];
-            if (hijo.AlcanzaMaximaEntrada)
-            {
-                this.DividirHijo(nodo, posicionInsertar, hijo);
-                if (nuevaLlave.CompareTo(nodo.Entradas[posicionInsertar].LLave) > 0)
-                {
-                    posicionInsertar++;
-                }
-            }
-            this.InsertarNoLleno(nodo.Hijos[posicionInsertar], nuevaLlave, nuevoApuntador);
-        }
     }
 }
