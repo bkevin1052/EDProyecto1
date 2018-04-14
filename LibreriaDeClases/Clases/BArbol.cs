@@ -17,6 +17,10 @@ namespace LibreriaDeClases.Clases
 
         public int Altura { get; private set; }
 
+        /// <summary>
+        /// Metodo Constructor del arbol
+        /// </summary>
+        /// <param name="grado">Grado del arbol</param>
         public BArbol(int grado)
         {
             if(grado < 2)
@@ -28,11 +32,21 @@ namespace LibreriaDeClases.Clases
             this.Altura = 1;
         }
 
-        public Entry<TKey, T> Search(TKey key)
+        /// <summary>
+        /// Metodo para buscar un objeto y/o dato almacenado en la llave
+        /// </summary>
+        /// <param name="Llave"></param>
+        /// <returns>Valor buscado</returns>
+        public Entry<TKey, T> Search(TKey Llave)
         {
-            return this.BusquedaInterna(this.Raiz, key);
+            return this.BusquedaInterna(this.Raiz, Llave);
         }
 
+        /// <summary>
+        /// Metodo para insertar una nueva llave junto con su objeto o tipo de dato
+        /// </summary>
+        /// <param name="nuevaLlave"> entero o cadena</param>
+        /// <param name="nuevoApuntador">objeto</param>
         public void Insertar(TKey nuevaLlave, T nuevoApuntador)
         {
             // Solo si hay espacio en la raiz
@@ -51,6 +65,12 @@ namespace LibreriaDeClases.Clases
 
         }
 
+        /// <summary>
+        /// Metodo para insercion interna dentro del arbol
+        /// </summary>
+        /// <param name="nodo">nuevo nodo</param>
+        /// <param name="nuevaLlave">llave a insertar</param>
+        /// <param name="nuevoApuntador">apuntador u objeto</param>
         private void InsertarNoLleno(BNodo<TKey, T> nodo, TKey nuevaLlave, T nuevoApuntador)
         {
             int posicionInsertar = nodo.Entradas.TakeWhile(entry => nuevaLlave.CompareTo(entry.LLave) >= 0).Count();
@@ -74,6 +94,12 @@ namespace LibreriaDeClases.Clases
             this.InsertarNoLleno(nodo.Hijos[posicionInsertar], nuevaLlave, nuevoApuntador);
         }
 
+        /// <summary>
+        /// Metodo para realizar un busqueda interna entre nodos
+        /// </summary>
+        /// <param name="node">nodo a buscar</param>
+        /// <param name="key">llave a buscar</param>
+        /// <returns>valor buscado</returns>
         private Entry<TKey, T> BusquedaInterna(BNodo<TKey, T> node, TKey key)
         {
             int i = node.Entradas.TakeWhile(entry => key.CompareTo(entry.LLave) > 0).Count();
@@ -85,6 +111,10 @@ namespace LibreriaDeClases.Clases
             return node.EsHoja ? null : this.BusquedaInterna(node.Hijos[i], key);
         }
 
+        /// <summary>
+        /// Metodo para realizar una eliminacion en el arbol
+        /// </summary>
+        /// <param name="LlaveEliminar">valor a eliminar</param>
         public void Eliminar(TKey LlaveEliminar)
         {
             this.EliminarInterno(this.Raiz, LlaveEliminar);
@@ -97,6 +127,11 @@ namespace LibreriaDeClases.Clases
 
         }
 
+        /// <summary>
+        /// Metodo para eliminar de manera interna una llave
+        /// </summary>
+        /// <param name="nodo">nodo a buscar</param>
+        /// <param name="LlaveEliminar">llave a eliminar</param>
         private void EliminarInterno(BNodo<TKey, T> nodo, TKey LlaveEliminar)
         {
             int i = nodo.Entradas.TakeWhile(entrada => LlaveEliminar.CompareTo(entrada.LLave) > 0).Count();
@@ -117,6 +152,12 @@ namespace LibreriaDeClases.Clases
             }
         }
 
+        /// <summary>
+        /// Metodo para eliminar la llave de un subarbol,es decir, valor raiz 
+        /// </summary>
+        /// <param name="NodoPadre">raiz</param>
+        /// <param name="LlaveEliminar">valor a eliminar</param>
+        /// <param name="IndiceSubArbol">ubicacion del valor</param>
         private void EliminarLlaveSubArbol(BNodo<TKey, T> NodoPadre, TKey LlaveEliminar, int IndiceSubArbol)
         {
             BNodo<TKey, T> NodoHijo = NodoPadre.Hijos[IndiceSubArbol];
@@ -190,6 +231,12 @@ namespace LibreriaDeClases.Clases
             this.EliminarInterno(NodoHijo, LlaveEliminar);
         }
 
+        /// <summary>
+        /// Metodo para elminar la llave de un nodo, es decir, un nodo raiz
+        /// </summary>
+        /// <param name="nodo">nodo </param>
+        /// <param name="LlaveEliminar">llave del nodo</param>
+        /// <param name="indiceLlaveNodo">ubicacion</param>
         private void EliminarLlaveNodo(BNodo<TKey, T> nodo, TKey LlaveEliminar, int indiceLlaveNodo)
         {
             if (nodo.EsHoja)
@@ -230,6 +277,11 @@ namespace LibreriaDeClases.Clases
 
         }
 
+        /// <summary>
+        /// Metodo para eliminar el predecesor de un nodo
+        /// </summary>
+        /// <param name="nodo">nodo a eliminar</param>
+        /// <returns>valor contenido</returns>
         private Entry<TKey, T> EliminarPredecesor(BNodo<TKey, T> nodo)
         {
             if (nodo.EsHoja)
@@ -241,6 +293,11 @@ namespace LibreriaDeClases.Clases
             return this.EliminarPredecesor(nodo.Hijos.Last());
         }
 
+        /// <summary>
+        /// Metodo para eliminar el sucesor de un nodo
+        /// </summary>
+        /// <param name="nodo">nodo a eliminar</param>
+        /// <returns>valor contenido</returns>
         private Entry<TKey, T> EliminarSucesor(BNodo<TKey, T> nodo)
         {
             if (nodo.EsHoja)
@@ -252,6 +309,12 @@ namespace LibreriaDeClases.Clases
             return this.EliminarPredecesor(nodo.Hijos.First());
         }
 
+        /// <summary>
+        /// Metodo que permite dividir un nodo, en 2 nodos y obtener los rangos permitidos segun el grado
+        /// </summary>
+        /// <param name="padreNodo">raiz o padre</param>
+        /// <param name="nodoCorrer">Nodo que se va dividir</param>
+        /// <param name="nodoMover">Nodo a mover y cambiar de ubicacion</param>
         private void DividirHijo(BNodo<TKey, T> padreNodo, int nodoCorrer, BNodo<TKey, T> nodoMover)
         {
 

@@ -13,6 +13,11 @@ namespace LibreriaDeClases.Clases
 
         public T Apuntador { get; set; }
 
+        /// <summary>
+        /// Comparador de llaves y apuntadores
+        /// </summary>
+        /// <param name="other">Entrada</param>
+        /// <returns>Valor booleano</returns>
         public bool Equals(Entry<TKey, T> other)
         {
            return this.LLave.Equals(other.LLave) && this.Apuntador.Equals(other.Apuntador);

@@ -12,6 +12,10 @@ namespace LibreriaDeClases.Clases
 
         private int grado;
 
+        /// <summary>
+        /// Metodo Constructor del nodo
+        /// </summary>
+        /// <param name="grado">grado del arbol</param>
         public BNodo(int grado)
         {
             this.grado = grado;
