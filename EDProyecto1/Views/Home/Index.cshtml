@@ -1,28 +1,143 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title>¡WELCOME TO GUAFLIX! :D</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <!--[if lte IE 8]><script src="~/Content/assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="~/Content/assets/css/main.css" />
+    <!--[if lte IE 9]><link rel="stylesheet" href="~/Content/assets/css/ie9.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="~/Content/assets/css/ie8.css" /><![endif]-->
+</head>
+<body>
 
-<div class="jumbotron">
-    <h1>¡WELCOME TO GUAFLIX! :D</h1>
-    <p class="lead">¡La aplicación donde todas tus series, películas, documentales serán de tu agrado!</p>
-</div>
+    <!-- Wrapper -->
+    <div id="wrapper">
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Register</h2>
-        <p>
-            Deberá llenar un formulario, para poder hacer uso de la aplicación...
-        </p>
-        <p>@Html.ActionLink("Sign Up", "RegistroUsuario", "Usuario")</p>
+        <!-- Header -->
+        <header id="header" class="alt">
+            <a href="https://www.url.edu.gt/" class="logo"><strong>GUAFLIX</strong> <span>URL</span></a>
+            <nav>
+                <a href="#menu">Menu</a>
+            </nav>
+        </header>
+
+        <!-- Menu -->
+        <nav id="menu">
+            <ul class="links">
+                <li><a href="/Home/Index">Home</a></li>
+                <li><a href="/Administrador/IniciarSesionAdmin">Administrator</a></li>
+            </ul>
+            <ul class="actions vertical">
+                <li><a href="/Usuario/RegistroUsuario" class="button special fit">Sign Up</a></li>
+                <li><a href="FALTA IMPLEMENTAR" class="button fit">Log In</a></li>
+            </ul>
+        </nav>
+
+        <!-- Banner -->
+        <section id="banner" class="major">
+            <div class="inner">
+                <header class="major">
+                    <h1>¡GUAFLIX!</h1>
+                </header>
+                <div class="content">
+                    <p>
+                        ¡La aplicación donde todas tus series, películas, documentales serán de tu agrado!
+                    </p>
+                    <ul class="actions">
+                        <li><a href="#one" class="button next scrolly">Iniciemos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main -->
+        <div id="main">
+
+            <!-- One -->
+            <section id="one" class="tiles">
+                <article>
+                    <span class="image">
+                        <img src="images/pic01.jpg" alt="" />
+                    </span>
+                    <header class="major">
+                        <h3><a href="https://www.twitter.com/" class="link">Twitter</a></h3>
+                        <p>Follow us on twitter</p>
+                    </header>
+                </article>
+                <article>
+                    <span class="image">
+                        <img src="images/pic02.jpg" alt="" />
+                    </span>
+                    <header class="major">
+                        <h3><a href="/Usuario/RegistroUsuario" class="link">Account</a></h3>
+                        <p>Verify your account</p>
+                    </header>
+                </article>
+                <article>
+                    <span class="image">
+                        <img src="images/pic03.jpg" alt="" />
+                    </span>
+                    <header class="major">
+                        <h3><a href="https://www.youtube.com/" class="link">Youtube</a></h3>
+                        <p>Follow us on Youtube</p>
+                    </header>
+                </article>
+                <article>
+                    <span class="image">
+                        <img src="images/pic04.jpg" alt="" />
+                    </span>
+                    <header class="major">
+                        <h3><a href="https://www.snapchat.com/" class="link">Snapchat</a></h3>
+                        <p>Follow us on Snapchat</p>
+                    </header>
+                </article>
+                <article>
+                    <span class="image">
+                        <img src="images/pic05.jpg" alt="" />
+                    </span>
+                    <header class="major">
+                        <h3><a href="https://www.facebook.com/" class="link">Facebook</a></h3>
+                        <p>Follow us on Facebook</p>
+                    </header>
+                </article>
+                <article>
+                    <span class="image">
+                        <img src="images/pic06.jpg" alt="" />
+                    </span>
+                    <header class="major">
+                        <h3><a href="https://www.instagram.com/" class="link">Instagram</a></h3>
+                        <p>Follow us on Instagram</p>
+                    </header>
+                </article>
+        </div>
+        <!-- Footer -->
+        <footer id="footer">
+            <div class="inner">
+                <ul class="icons">
+                    <li><a href="https://www.twitter.com/" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="https://www.facebook.com/" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+                    <li><a href="https://www.instagram.com/" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
+                    <li><a href="https://www.github.com/" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
+                    <li><a href="https://www.linkedin.com/" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+                </ul>
+                <ul class="copyright">
+                    <li>&copy; Guaflix.Inc</li>
+                    <li>Support: <a href="https://github.com/bkevin1052/EDProyecto1">Kevin Barrientos y Lesly Dubón</a></li>
+                </ul>
+            </div>
+        </footer>
+
     </div>
-    <div class="col-md-4">
-        <h2>Administrator</h2>
-        <p>Únicamente un usuario administrador podrá ingresar...</p>
-        <p>@Html.ActionLink("Sign in", "IniciarSesionAdmin", "Administrador")</p>
-    </div>
-    <div class="col-md-4">
-        <h2>User</h2>
-        <p>Únicamente usuarios ya registrados...</p>
-        <p>@Html.ActionLink("Sign In", "IniciarSesionAdmin", "Usuario")</p>//falta implementar vista       
-    </div>
-</div>
+
+    <!-- Scripts -->
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+    <script src="~/Content/assets/js/jquery.scrolly.min.js"></script>
+    <script src="~/Content/assets/js/jquery.scrollex.min.js"></script>
+    <script src="~/Content/assets/js/skel.min.js"></script>
+    <script src="~/Content/assets/js/util.js"></script>
+    <!--[if lte IE 8]><script src="~/Content/assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="~/Content/assets/js/main.js"></script>
+
+</body>
+</html>
