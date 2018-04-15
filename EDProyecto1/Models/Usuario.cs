@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using LibreriaDeClases.Clases;
 
 namespace EDProyecto1.Models
 {
@@ -13,6 +14,7 @@ namespace EDProyecto1.Models
         public int Edad { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public BArbol<string, Audiovisual> WatchList = new BArbol<string, Audiovisual>(3);
 
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaDeClases.Clases
 {
-    public class BArbol <TKey, T> where TKey : IComparable<TKey>, IBArbol<TKey,T>
+    public class BArbol <TKey, T> where TKey : IComparable<TKey>
     {
 
         public BNodo<TKey, T> Raiz { get; private set; }

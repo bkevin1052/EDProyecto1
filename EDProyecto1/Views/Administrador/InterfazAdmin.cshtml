@@ -1,0 +1,90 @@
+﻿@model IEnumerable<EDProyecto1.Models.Audiovisual>
+
+@{
+    ViewBag.Title = "Interfaz Admin";
+}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Landing - Forty by HTML5 UP</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <!--[if lte IE 8]><script src="~/Content/assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="~/Content/assets/css/main.css" />
+    <!--[if lte IE 9]><link rel="stylesheet" href="~/Content/assets/css/ie9.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="~/Content/assets/css/ie8.css" /><![endif]-->
+</head>
+<body>
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+        <!-- Header -->
+        <!-- Note: The "styleN" class below should match that of the banner element. -->
+        <header id="header" class="alt style2">
+            <a href="/Home/Index" class="logo"><strong>GUAFLIX</strong> <span>URL</span></a>            
+        </header>
+        <!-- Banner -->
+        <!-- Note: The "styleN" class below should match that of the header element. -->
+        <section id="banner" class="style2">
+            <div class="inner">
+                <span class="image">
+                    <img src="images/pic07.jpg" alt="" />
+                </span>
+                <header class="major">
+                    <h1>Adminitrator</h1>
+                </header>
+                <div class="content">
+                    <input type="button" value="AGREGAR" onclick="location.href='@Url.Action("CreateAdmin", "Administrador" )'" />
+                    <input type="button" value="CARGAR JSON POR NOMBRE" onclick="location.href='@Url.Action("", "" )'" />
+                    <input type="button" value="CARGAR JSON POR AÑO DE LANZAMIENTO" onclick="location.href='@Url.Action("", "" )'" />
+                    <input type="button" value="CARGAR JSON POR GENERO" onclick="location.href='@Url.Action("", "" )'" />
+                </div>
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AudioVisualID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tipo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Anio)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Genero)
+                        </th>
+                    </tr>
+                    @foreach (var item in Model)
+    {
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AudioVisualID)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tipo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Anio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Genero)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.AudioVisualID }) |
+                        @Html.ActionLink("Delete", "DeleteNoPartido", new { id = item.AudioVisualID })
+                    </td>
+                </tr>
+}
+                </table>
+                    </div>
+            </section>
+        </div>
+</body>
+</html>
+

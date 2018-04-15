@@ -9,7 +9,16 @@ namespace EDProyecto1.Controllers
     public class AdministradorController : Controller
     {
         // GET: Administrador
-        public ActionResult IniciarSesionAdmin()
+        public ActionResult IniciarSesionAdmin(string Nombre, string Password)
+        {
+            if (Nombre == "admin" && Password == "admin")
+            {
+                return View("InterfazAdmin");
+            }
+            return View(); 
+        }
+
+        public ActionResult InterfazAdmin()
         {
             return View();
         }
@@ -21,14 +30,14 @@ namespace EDProyecto1.Controllers
         }
 
         // GET: Administrador/Create
-        public ActionResult Create()
+        public ActionResult AgregarAdmin()
         {
             return View();
         }
 
         // POST: Administrador/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult AgregarAdmin(FormCollection collection)
         {
             try
             {

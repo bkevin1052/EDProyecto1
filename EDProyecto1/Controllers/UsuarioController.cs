@@ -3,13 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using EDProyecto1.Models;
+using EDProyecto1.DBContext;
 
 namespace EDProyecto1.Controllers
 {
     public class UsuarioController : Controller
     {
         // GET: Usuario
+        public ActionResult InicioSesionUsuario()
+        {
+            return View();
+        }
         public ActionResult RegistroUsuario()
+        {            
+            return View();
+        }
+
+        public ActionResult InterfazUsuario()
+        {
+            return View();
+        }
+
+        public ActionResult WatchList()
         {
             return View();
         }
@@ -20,21 +36,31 @@ namespace EDProyecto1.Controllers
             return View();
         }
 
-        // GET: Usuario/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         // POST: Usuario/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult RegistroUsuario(Usuario nuevoUsuario)
+        {
+            try
+            {                
+                DefaultConnection.usuarios.Add(nuevoUsuario);
+                return View("InterfazUsuario");
+            }  catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult InicioSesionUsuario(string Username, string Password)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                Usuario usuarioRegistrado = DefaultConnection.usuarios.Find(x => (x.Username == Username) && (x.Password == Password));
+                if(usuarioRegistrado == null)
+                {
+                    return View();
+                }
+                return View("InterfazUsuario");
             }
             catch
             {
