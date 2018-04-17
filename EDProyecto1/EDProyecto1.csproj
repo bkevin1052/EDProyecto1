@@ -257,6 +257,7 @@
     <Content Include="Views\Usuario\InterfazUsuario.cshtml" />
     <Content Include="Views\Usuario\WatchList.cshtml" />
     <Content Include="Views\Usuario\InicioSesionUsuario.cshtml" />
+    <Content Include="Views\Home\IngresoGrado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
