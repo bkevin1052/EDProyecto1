@@ -55,12 +55,12 @@ namespace LibreriaDeClases.Clases
                 this.InsertarNoLleno(this.Raiz, nuevaLlave, nuevoApuntador);
                 return;
             }
+            this.Raiz.Entradas.Insert(this.Grado-1, new Entry<TKey, T>() { LLave = nuevaLlave, Apuntador = nuevoApuntador });
             // nuevo nodo y se necesita dividir
             BNodo<TKey, T> viejaRaiz = this.Raiz;
             this.Raiz = new BNodo<TKey, T>(this.Grado);
             this.Raiz.Hijos.Add(viejaRaiz);
             this.DividirHijo(this.Raiz, 0, viejaRaiz);
-            this.InsertarNoLleno(this.Raiz, nuevaLlave, nuevoApuntador);
             this.Altura++;
 
         }
@@ -319,16 +319,40 @@ namespace LibreriaDeClases.Clases
         {
 
             var nuevoNodo = new BNodo<TKey, T>(this.Grado);
-
-            padreNodo.Entradas.Insert(nodoCorrer, nodoMover.Entradas[this.Grado-1]);
-
+            if (Grado % 2 == 0)
+            {
+                padreNodo.Entradas.Insert(nodoCorrer, nodoMover.Entradas[(this.Grado/2)-1]);
+            }
+            else
+            {
+                padreNodo.Entradas.Insert(nodoCorrer, nodoMover.Entradas[(this.Grado / 2)]);
+            }
             padreNodo.Hijos.Insert(nodoCorrer + 1, nuevoNodo);
+            if (Grado % 2 == 0)
+            {
+                nuevoNodo.Entradas.AddRange(nodoMover.Entradas.GetRange((this.Grado / 2), (this.Grado / 2)));
+                nodoMover.Entradas.RemoveRange((this.Grado / 2) - 1, (this.Grado / 2) + 1);
+            }
+            else
+            {
+                nuevoNodo.Entradas.AddRange(nodoMover.Entradas.GetRange((this.Grado / 2) + 1, this.Grado/2));
+                nodoMover.Entradas.RemoveRange((this.Grado / 2), (this.Grado/2) + 1);
+            }
+            
 
-            nuevoNodo.Entradas.AddRange(nodoMover.Entradas.GetRange(this.Grado , this.Grado-1));
-
-            nodoMover.Entradas.RemoveRange(this.Grado - 1, this.Grado);
+            
             if (!nodoMover.EsHoja)
             {
+                if (Grado % 2 == 0)
+                {
+                    nuevoNodo.Entradas.AddRange(nodoMover.Entradas.GetRange((this.Grado / 2), this.Grado - 1));
+                    nodoMover.Entradas.RemoveRange((this.Grado / 2) - 1, this.Grado - 1);
+                }
+                else
+                {
+                    nuevoNodo.Entradas.AddRange(nodoMover.Entradas.GetRange((this.Grado / 2) + 1, this.Grado - 1));
+                    nodoMover.Entradas.RemoveRange((this.Grado / 2), this.Grado - 1);
+                }
                 nuevoNodo.Hijos.AddRange(nodoMover.Hijos.GetRange(this.Grado, this.Grado));
 
                 nodoMover.Hijos.RemoveRange(this.Grado, this.Grado);

@@ -39,7 +39,7 @@ namespace LibreriaDeClases.Clases
         {
             get
             {
-                return this.Entradas.Count == (2*this.grado) - 1;
+                return this.Entradas.Count == (this.grado-1);
             }
         }
 

@@ -30,6 +30,7 @@ namespace EDProyecto1.Controllers
             }
             else
             {
+                LeerGrado();
                 return View();
             }
             
@@ -57,7 +58,7 @@ namespace EDProyecto1.Controllers
                 grado = int.Parse(Grado);
                 if (grado > 1)
                 {
-                    
+                    DefaultConnection.BArbolUsuarios = new BArbol<string, Usuario>(grado);
                     EscribirGrado(rutaUsuarios, false, grado);
                     DefaultConnection.BArbolShowPorNombre = new BArbol<string, Audiovisual>(grado);
                     EscribirGrado(rutaArbolShowporNombre, false, grado);
@@ -92,11 +93,32 @@ namespace EDProyecto1.Controllers
             }
             return View();
         }
-        public void EscribirGrado(string rutaArchivo, bool sobrescribir, int grado)
+        private void EscribirGrado(string rutaArchivo, bool sobrescribir, int grado)
         {
             StreamWriter GradoWriter = new StreamWriter(rutaArchivo, sobrescribir);
             GradoWriter.WriteLine("Grado: "+grado.ToString());
             GradoWriter.Close();
+        }
+
+        private void LeerGrado()
+        {
+            string linea;
+            int grado;
+            StreamReader lector = new StreamReader(rutaUsuarios);
+            linea = lector.ReadLine();
+            var array = linea.Split(':', ' ');
+            grado = int.Parse(array[2]);
+            DefaultConnection.BArbolUsuarios = new BArbol<string, Usuario>(grado);
+            DefaultConnection.BArbolShowPorNombre = new BArbol<string, Audiovisual>(grado);
+            DefaultConnection.BArbolShowPorAnio = new BArbol<int, Audiovisual>(grado);
+            DefaultConnection.BArbolShowPorGenero = new BArbol<string, Audiovisual>(grado);
+            DefaultConnection.BArbolMoviePorNombre = new BArbol<string, Audiovisual>(grado);
+            DefaultConnection.BArbolMoviePorAnio = new BArbol<int, Audiovisual>(grado);
+            DefaultConnection.BArbolMoviePorGenero = new BArbol<string, Audiovisual>(grado);
+            DefaultConnection.BArbolDocumentaryPorNombre = new BArbol<string, Audiovisual>(grado);
+            DefaultConnection.BArbolDocumentaryPorAnio = new BArbol<int, Audiovisual>(grado);
+            DefaultConnection.BArbolDocumentaryPorGenero = new BArbol<string, Audiovisual>(grado);
+
         }
     }
 }

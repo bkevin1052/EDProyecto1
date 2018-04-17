@@ -41,9 +41,10 @@ namespace EDProyecto1.Controllers
         public ActionResult RegistroUsuario(Usuario nuevoUsuario)
         {
             try
-            {                
+            {
+                DefaultConnection.BArbolUsuarios.Insertar(nuevoUsuario.Username, nuevoUsuario);
                 DefaultConnection.usuarios.Add(nuevoUsuario);
-                return View("InterfazUsuario");
+                return View();
             }  catch
             {
                 return View();
