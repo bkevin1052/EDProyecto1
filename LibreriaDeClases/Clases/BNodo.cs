@@ -19,7 +19,7 @@ namespace LibreriaDeClases.Clases
         public BNodo(int grado)
         {
             this.grado = grado;
-            this.Hijos = new List<BNodo<TKey, T>>(grado);
+            this.Hijos = new List<BNodo<TKey, T>>(grado+1);
             this.Entradas = new List<Entry<TKey, T>>(grado);
         }
 
@@ -39,7 +39,7 @@ namespace LibreriaDeClases.Clases
         {
             get
             {
-                return this.Entradas.Count == (this.grado-1);
+                return this.Entradas.Count == (this.grado);
             }
         }
 

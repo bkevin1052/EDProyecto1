@@ -22,6 +22,7 @@ namespace EDProyecto1.Controllers
         string rutaArbolDocumentaryporNombre = @"C:\Users\" + Environment.UserName + @"\name.documentarytree";
         string rutaArbolDocumentaryporGenero = @"C:\Users\" + Environment.UserName + @"\genre.documentarytree";
         string rutaArbolDocumentaryporAnio = @"C:\Users\" + Environment.UserName + @"\year.documentarytree";
+        public static BArbol<int, string> ArbolPrueba = new BArbol<int, string>(4);
         public ActionResult Index()
         {
             if(!System.IO.File.Exists(rutaUsuarios))

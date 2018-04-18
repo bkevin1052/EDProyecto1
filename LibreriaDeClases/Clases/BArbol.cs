@@ -49,49 +49,68 @@ namespace LibreriaDeClases.Clases
         /// <param name="nuevoApuntador">objeto</param>
         public void Insertar(TKey nuevaLlave, T nuevoApuntador)
         {
-            // Solo si hay espacio en la raiz
-            if (!this.Raiz.AlcanzaMaximaEntrada)
-            {
-                this.InsertarNoLleno(this.Raiz, nuevaLlave, nuevoApuntador);
-                return;
-            }
-            this.Raiz.Entradas.Insert(this.Grado-1, new Entry<TKey, T>() { LLave = nuevaLlave, Apuntador = nuevoApuntador });
-            // nuevo nodo y se necesita dividir
-            BNodo<TKey, T> viejaRaiz = this.Raiz;
-            this.Raiz = new BNodo<TKey, T>(this.Grado);
-            this.Raiz.Hijos.Add(viejaRaiz);
-            this.DividirHijo(this.Raiz, 0, viejaRaiz);
-            this.Altura++;
+            InsertarRecursivo(this.Raiz, nuevaLlave, nuevoApuntador, null);
 
         }
 
-        /// <summary>
-        /// Metodo para insercion interna dentro del arbol
-        /// </summary>
-        /// <param name="nodo">nuevo nodo</param>
-        /// <param name="nuevaLlave">llave a insertar</param>
-        /// <param name="nuevoApuntador">apuntador u objeto</param>
-        private void InsertarNoLleno(BNodo<TKey, T> nodo, TKey nuevaLlave, T nuevoApuntador)
+
+        private void InsertarRecursivo(BNodo<TKey, T> nodo, TKey nuevaLlave, T nuevoApuntador, BNodo<TKey, T> nodoPadre)
         {
             int posicionInsertar = nodo.Entradas.TakeWhile(entry => nuevaLlave.CompareTo(entry.LLave) >= 0).Count();
-            // Es hoja
+            //Es hoja
             if (nodo.EsHoja)
             {
-                nodo.Entradas.Insert(posicionInsertar, new Entry<TKey, T>() { LLave = nuevaLlave, Apuntador = nuevoApuntador });
-                return;
-            }
-            // No es hoja
-
-            BNodo<TKey, T> hijo = nodo.Hijos[posicionInsertar];
-            if (hijo.AlcanzaMaximaEntrada)
-            {
-                this.DividirHijo(nodo, posicionInsertar, hijo);
-                if (nuevaLlave.CompareTo(nodo.Entradas[posicionInsertar].LLave) > 0)
+                if (this.Raiz == nodo)
                 {
-                    posicionInsertar++;
+                    this.Raiz.Entradas.Insert(posicionInsertar, new Entry<TKey, T>() { LLave = nuevaLlave, Apuntador = nuevoApuntador });
+                    if(this.Raiz.AlcanzaMaximaEntrada)
+                    {
+                        // nuevo nodo y se necesita dividir
+                        BNodo<TKey, T> viejaRaiz = this.Raiz;
+                        this.Raiz = new BNodo<TKey, T>(this.Grado);
+                        this.Raiz.Hijos.Add(viejaRaiz);
+                        this.DividirHijo(this.Raiz, 0, viejaRaiz);
+                        this.Altura++; 
+                    }
+                    return;
+                }
+                else
+                {
+                    nodo.Entradas.Insert(posicionInsertar, new Entry<TKey, T>() { LLave = nuevaLlave, Apuntador = nuevoApuntador });
+                    if (nodo.AlcanzaMaximaEntrada)
+                    {
+                        posicionInsertar = nodoPadre.Entradas.TakeWhile(entry => nuevaLlave.CompareTo(entry.LLave) >= 0).Count();
+                        DividirHijo(nodoPadre, posicionInsertar, nodo);    
+                    }
+                    return;
                 }
             }
-            this.InsertarNoLleno(nodo.Hijos[posicionInsertar], nuevaLlave, nuevoApuntador);
+            //No es Hoja
+            else
+            {
+                this.InsertarRecursivo(nodo.Hijos[posicionInsertar], nuevaLlave, nuevoApuntador, nodo);
+                if (nodoPadre == null)
+                {
+                    if(nodo.AlcanzaMaximaEntrada)
+                    {
+                        BNodo<TKey, T> viejaRaiz = this.Raiz;
+                        this.Raiz = new BNodo<TKey, T>(this.Grado);
+                        this.Raiz.Hijos.Add(viejaRaiz);
+                        this.DividirHijo(this.Raiz, 0, viejaRaiz);
+                        this.Altura++;
+                    }
+                    return;
+                }
+                else
+                {
+                    if (nodo.AlcanzaMaximaEntrada)
+                    {
+                        DividirHijo(nodoPadre, posicionInsertar, nodo);
+                    }
+                    return;
+                }
+            }
+
         }
 
         /// <summary>
@@ -327,7 +346,7 @@ namespace LibreriaDeClases.Clases
             {
                 padreNodo.Entradas.Insert(nodoCorrer, nodoMover.Entradas[(this.Grado / 2)]);
             }
-            padreNodo.Hijos.Insert(nodoCorrer + 1, nuevoNodo);
+            
             if (Grado % 2 == 0)
             {
                 nuevoNodo.Entradas.AddRange(nodoMover.Entradas.GetRange((this.Grado / 2), (this.Grado / 2)));
@@ -338,26 +357,24 @@ namespace LibreriaDeClases.Clases
                 nuevoNodo.Entradas.AddRange(nodoMover.Entradas.GetRange((this.Grado / 2) + 1, this.Grado/2));
                 nodoMover.Entradas.RemoveRange((this.Grado / 2), (this.Grado/2) + 1);
             }
-            
 
             
+
             if (!nodoMover.EsHoja)
             {
                 if (Grado % 2 == 0)
                 {
-                    nuevoNodo.Entradas.AddRange(nodoMover.Entradas.GetRange((this.Grado / 2), this.Grado - 1));
-                    nodoMover.Entradas.RemoveRange((this.Grado / 2) - 1, this.Grado - 1);
+                    nuevoNodo.Hijos.AddRange(nodoMover.Hijos.GetRange((this.Grado / 2), (this.Grado / 2)+1));
+                    nodoMover.Hijos.RemoveRange((this.Grado / 2), (this.Grado / 2) + 1);
                 }
                 else
                 {
-                    nuevoNodo.Entradas.AddRange(nodoMover.Entradas.GetRange((this.Grado / 2) + 1, this.Grado - 1));
-                    nodoMover.Entradas.RemoveRange((this.Grado / 2), this.Grado - 1);
+                    nuevoNodo.Hijos.AddRange(nodoMover.Hijos.GetRange((this.Grado / 2), (this.Grado / 2)));
+                    nodoMover.Hijos.RemoveRange((this.Grado / 2), (this.Grado / 2));
                 }
-                nuevoNodo.Hijos.AddRange(nodoMover.Hijos.GetRange(this.Grado, this.Grado));
-
-                nodoMover.Hijos.RemoveRange(this.Grado, this.Grado);
+                
             }
-
+            padreNodo.Hijos.Insert(nodoCorrer + 1, nuevoNodo);
         }
 
     }
