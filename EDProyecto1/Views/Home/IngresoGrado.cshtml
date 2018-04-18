@@ -1,0 +1,74 @@
+﻿
+<!DOCTYPE HTML>
+<!--
+    Forty by HTML5 UP
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>Administrator</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <!--[if lte IE 8]><script src="~/Content/assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="~/Content/assets/css/main.css" />
+    <!--[if lte IE 9]><link rel="stylesheet" href="~/Content/assets/css/ie9.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="~/Content/assets/css/ie8.css" /><![endif]-->
+</head>
+<body>
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <a href="/Home/Index" class="logo"><strong>Guaflix</strong> <span>URL</span></a>
+        </header>
+        <!-- Main -->
+        <div id="main" class="alt">
+
+            <!-- One -->
+            <section id="one">
+                <div class="inner">
+                    <header class="major">
+                        <h1>Ingreso de Grado</h1>
+                    </header>
+                </div>
+            </section>
+        </div>
+        <!-- Contact -->
+        <section id="contact">
+            <div class="inner">
+                <section>
+
+                    @using (Html.BeginForm("IngresoGrado", "Home", FormMethod.Post))
+                    {
+                <div class="form-group">
+                    <input type="text" name="grado" id="grado" />
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="ngresar" class="btn btn-default" />
+                    </div>
+                </div>
+                        if (null != TempData["alertMessage"])
+                        {
+                <script type="text/javascript">
+       alert('@TempData["alertMessage"]');
+                </script>
+                        }
+                    }
+                </section>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+    <script src="~/Content/assets/js/jquery.scrolly.min.js"></script>
+    <script src="~/Content/assets/js/jquery.scrollex.min.js"></script>
+    <script src="~/Content/assets/js/skel.min.js"></script>
+    <script src="~/Content/assets/js/util.js"></script>
+    <!--[if lte IE 8]><script src="~/Content/assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="~/Content/assets/js/main.js"></script>
+
+</body>
+</html>

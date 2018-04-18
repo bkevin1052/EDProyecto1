@@ -14,7 +14,13 @@ namespace EDProyecto1.Models
         public int Edad { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public BArbol<string, Audiovisual> WatchList = new BArbol<string, Audiovisual>(3);
+
+        public List<Audiovisual>WatchList = new List<Audiovisual>();
+
+        public string ToFixedSizeString()
+        {
+            return $"{string.Format("{0,-20}", Nombre)},{string.Format("{0,-20}", Apellido)},{Edad.ToString("000;-000")},{string.Format("{0,-20}", Username)},{string.Format("{0,-20}", Password)}";
+        }
 
     }
 }
