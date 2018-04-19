@@ -8,7 +8,7 @@ namespace EDProyecto1.Models
     public class Audiovisual
     {
         //Atributos de la clase Audiovisual
-        public string AudioVisualID { get; set; }
+        public int AudioVisualID { get; set; }
         public string Tipo { get; set; }
         public string Nombre { get; set; }
         public int Anio { get; set; }

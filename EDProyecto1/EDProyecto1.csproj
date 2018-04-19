@@ -143,7 +143,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdministradorController.cs" />
-    <Compile Include="Controllers\ArchivoController.cs" />
     <Compile Include="Controllers\AudiovisualController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -252,16 +251,18 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Administrador\IniciarSesionAdmin.cshtml" />
     <Content Include="Views\Usuario\RegistroUsuario.cshtml" />
-    <Content Include="Views\Administrador\InterfazAdmin.cshtml" />
     <Content Include="Views\Administrador\AgregarAdmin.cshtml" />
     <Content Include="Views\Usuario\InterfazUsuario.cshtml" />
     <Content Include="Views\Usuario\WatchList.cshtml" />
     <Content Include="Views\Usuario\InicioSesionUsuario.cshtml" />
     <Content Include="Views\Home\IngresoGrado.cshtml" />
+    <Content Include="Views\Archivo\CargaArchivoJSON.cshtml" />
+    <Content Include="Views\Administrador\CargaArchivoJSON.cshtml" />
+    <Content Include="Views\Administrador\InterfazAdmin.cshtml" />
+    <Content Include="Views\Administrador\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Archivo\" />
     <Folder Include="Views\Audiovisual\" />
   </ItemGroup>
   <ItemGroup>

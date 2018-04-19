@@ -63,19 +63,19 @@ namespace EDProyecto1.Controllers
                     EscribirGrado(rutaUsuarios, false, grado);
                     DefaultConnection.BArbolShowPorNombre = new BArbol<string, Audiovisual>(grado);
                     EscribirGrado(rutaArbolShowporNombre, false, grado);
-                    DefaultConnection.BArbolShowPorAnio = new BArbol<int, Audiovisual>(grado);
+                    DefaultConnection.BArbolShowPorAnio = new BArbol<string, Audiovisual>(grado);
                     EscribirGrado(rutaArbolShowporAnio, false, grado);
                     DefaultConnection.BArbolShowPorGenero = new BArbol<string, Audiovisual>(grado);
                     EscribirGrado(rutaArbolShowporGenero, false, grado);
                     DefaultConnection.BArbolMoviePorNombre = new BArbol<string, Audiovisual>(grado);
                     EscribirGrado(rutaArbolMovieporNombre, false, grado);
-                    DefaultConnection.BArbolMoviePorAnio = new BArbol<int, Audiovisual>(grado);
+                    DefaultConnection.BArbolMoviePorAnio = new BArbol<string, Audiovisual>(grado);
                     EscribirGrado(rutaArbolMovieporAnio, false, grado);
                     DefaultConnection.BArbolMoviePorGenero = new BArbol<string, Audiovisual>(grado);
                     EscribirGrado(rutaArbolMovieporGenero, false, grado);
                     DefaultConnection.BArbolDocumentaryPorNombre = new BArbol<string, Audiovisual>(grado);
                     EscribirGrado(rutaArbolDocumentaryporNombre, false, grado);
-                    DefaultConnection.BArbolDocumentaryPorAnio = new BArbol<int, Audiovisual>(grado);
+                    DefaultConnection.BArbolDocumentaryPorAnio = new BArbol<string, Audiovisual>(grado);
                     EscribirGrado(rutaArbolDocumentaryporAnio, false, grado);
                     DefaultConnection.BArbolDocumentaryPorGenero = new BArbol<string, Audiovisual>(grado);
                     EscribirGrado(rutaArbolDocumentaryporGenero, false, grado);
@@ -92,7 +92,6 @@ namespace EDProyecto1.Controllers
                 TempData["alertMessage"] = "Ingrese un grado válido. El grado debe ser mayor o igual a 2.";
                 return View();
             }
-            return View();
         }
         private void EscribirGrado(string rutaArchivo, bool sobrescribir, int grado)
         {
@@ -111,13 +110,13 @@ namespace EDProyecto1.Controllers
             grado = int.Parse(array[2]);
             DefaultConnection.BArbolUsuarios = new BArbol<string, Usuario>(grado);
             DefaultConnection.BArbolShowPorNombre = new BArbol<string, Audiovisual>(grado);
-            DefaultConnection.BArbolShowPorAnio = new BArbol<int, Audiovisual>(grado);
+            DefaultConnection.BArbolShowPorAnio = new BArbol<string, Audiovisual>(grado);
             DefaultConnection.BArbolShowPorGenero = new BArbol<string, Audiovisual>(grado);
             DefaultConnection.BArbolMoviePorNombre = new BArbol<string, Audiovisual>(grado);
-            DefaultConnection.BArbolMoviePorAnio = new BArbol<int, Audiovisual>(grado);
+            DefaultConnection.BArbolMoviePorAnio = new BArbol<string, Audiovisual>(grado);
             DefaultConnection.BArbolMoviePorGenero = new BArbol<string, Audiovisual>(grado);
             DefaultConnection.BArbolDocumentaryPorNombre = new BArbol<string, Audiovisual>(grado);
-            DefaultConnection.BArbolDocumentaryPorAnio = new BArbol<int, Audiovisual>(grado);
+            DefaultConnection.BArbolDocumentaryPorAnio = new BArbol<string, Audiovisual>(grado);
             DefaultConnection.BArbolDocumentaryPorGenero = new BArbol<string, Audiovisual>(grado);
 
         }
