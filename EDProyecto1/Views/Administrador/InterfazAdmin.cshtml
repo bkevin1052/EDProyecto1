@@ -1,7 +1,10 @@
-﻿@model IEnumerable<EDProyecto1.Models.Audiovisual>
-
+﻿@using EDProyecto1.Models
 @{
-    ViewBag.Title = "Interfaz Admin";
+    ViewBag.Title = "InterfazAdmin";
+}
+@model IEnumerable<Audiovisual>
+@{
+
 }
 <!DOCTYPE HTML>
 <html>
@@ -21,7 +24,7 @@
         <!-- Header -->
         <!-- Note: The "styleN" class below should match that of the banner element. -->
         <header id="header" class="alt style2">
-            <a href="/Home/Index" class="logo"><strong>GUAFLIX</strong> <span>URL</span></a>            
+            <a href="/Home/Index" class="logo"><strong>GUAFLIX</strong> <span>URL</span></a>
         </header>
         <!-- Banner -->
         <!-- Note: The "styleN" class below should match that of the header element. -->
@@ -31,19 +34,16 @@
                     <img src="images/pic07.jpg" alt="" />
                 </span>
                 <header class="major">
-                    <h1>Adminitrator</h1>
+                    <h1>Administrator</h1>
                 </header>
                 <div class="content">
-                    <input type="button" value="AGREGAR" onclick="location.href='@Url.Action("CreateAdmin", "Administrador" )'" />
-                    <input type="button" value="CARGAR JSON POR NOMBRE" onclick="location.href='@Url.Action("", "" )'" />
-                    <input type="button" value="CARGAR JSON POR AÑO DE LANZAMIENTO" onclick="location.href='@Url.Action("", "" )'" />
-                    <input type="button" value="CARGAR JSON POR GENERO" onclick="location.href='@Url.Action("", "" )'" />
+                    <input type="button" value="AGREGAR" onclick="location.href='@Url.Action("AgregarAdmin", "Administrador" )'" />
+                    <input type="button" value="CARGAR JSON" onclick="location.href='@Url.Action("CargaArchivoJSON", "Administrador" )'" />
                 </div>
+                    @if (Model != null && Model.Count() > 0)
+    {
                 <table class="table">
                     <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.AudioVisualID)
-                        </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Tipo)
                         </th>
@@ -77,14 +77,15 @@
                     </td>
                     <td>
                         @Html.ActionLink("Details", "Details", new { id = item.AudioVisualID }) |
-                        @Html.ActionLink("Delete", "DeleteNoPartido", new { id = item.AudioVisualID })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.AudioVisualID })
                     </td>
                 </tr>
 }
                 </table>
-                    </div>
-            </section>
-        </div>
+}
+                
+            </div>
+        </section>
+    </div>
 </body>
 </html>
-

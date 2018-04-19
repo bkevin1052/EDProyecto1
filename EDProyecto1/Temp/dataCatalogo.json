@@ -1,0 +1,62 @@
+﻿{
+  "nodo1": {
+	"Tipo": "Documental",
+	"Nombre": "History",
+	"Anio": 2009,
+	"Genero": "Histórico"
+  },
+  "nodo2": {
+	"Tipo": "Serie",
+	"Nombre": "Casa de Papel",
+	"Anio": 2018,
+	"Genero": "Realismo"
+  },
+ "nodo3": {
+	"Tipo": "Documental",
+	"Nombre": "King",
+	"Anio": 2000,
+	"Genero": "Naturaleza"
+  },
+ "nodo4": {
+	"Tipo": "Película",
+	"Nombre": "IT",
+	"Anio": 2017,
+	"Genero": "Terror"
+  },
+ "nodo5": {
+	"Tipo": "Película",
+	"Nombre": "Vengadores",
+	"Anio": 2011,
+	"Genero": "Acción"
+  },
+  "nodo6": {
+	"Tipo": "Documental",
+	"Nombre": "A",
+	"Anio": 2003,
+	"Genero": "Histórico"
+  },
+  "nodo7": {
+	"Tipo": "Serie",
+	"Nombre": "Dollhouse",
+	"Anio": 2010,
+	"Genero": "Thriller"
+  },
+ "nodo8": {
+	"Tipo": "Documental",
+	"Nombre": "Queen",
+	"Anio": 1999,
+	"Genero": "R"
+  },
+ "nodo9": {
+	"Tipo": "Película",
+	"Nombre": "Pride and Prejudice",
+	"Anio": 2000,
+	"Genero": "Romance"
+  },
+ "nodo10": {
+	"Tipo": "Película",
+	"Nombre": "Vengadores 2",
+	"Anio": 2014,
+	"Genero": "Acción"
+  }
+}
