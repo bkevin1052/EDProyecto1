@@ -18,7 +18,10 @@
     <!--[if lte IE 8]><link rel="stylesheet" href="~/Content/assets/css/ie8.css" /><![endif]-->
 </head>
 <body>
-
+    <br>
+    <br>
+    <br>
+    <br>
     <!-- Wrapper -->
     <div id="wrapper">
         <!-- Header -->
@@ -34,56 +37,59 @@
                     <img src="images/pic07.jpg" alt="" />
                 </span>
                 <header class="major">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
                     <h1>Administrator</h1>
                 </header>
                 <div class="content">
                     <input type="button" value="AGREGAR" onclick="location.href='@Url.Action("AgregarAdmin", "Administrador" )'" />
                     <input type="button" value="CARGAR JSON" onclick="location.href='@Url.Action("CargaArchivoJSON", "Administrador" )'" />
                 </div>
-                    @if (Model != null && Model.Count() > 0)
-    {
-                <table class="table">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Tipo)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Nombre)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Anio)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Genero)
-                        </th>
-                    </tr>
-                    @foreach (var item in Model)
-    {
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.AudioVisualID)
-                    </th>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Tipo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nombre)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Anio)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Genero)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Details", "Details", new { id = item.AudioVisualID }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.AudioVisualID })
-                    </td>
-                </tr>
-}
-                </table>
-}
-                
+                @if (Model != null && Model.Count() > 0)
+                {
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Tipo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Anio)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Genero)
+                            </th>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.AudioVisualID)
+                                </th>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Tipo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Anio)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Genero)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.AudioVisualID })
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+
             </div>
         </section>
     </div>

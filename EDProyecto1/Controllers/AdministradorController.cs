@@ -13,6 +13,7 @@ namespace EDProyecto1.Controllers
 {
     public class AdministradorController : Controller
     {
+        public static List<Audiovisual> model = new List<Audiovisual>();
         DefaultConnection db = DefaultConnection.getInstance;
         // GET: Administrador
         public ActionResult IniciarSesionAdmin(string Nombre, string Password)
@@ -27,12 +28,11 @@ namespace EDProyecto1.Controllers
         // GET: 
         public ActionResult InterfazAdmin()
         {
-            var model = new List<Audiovisual>();
             ConvertiraLista(ref model);
             return View(model);
         }
 
-        private void AgregaraLista(ref List<Audiovisual> model, BNodo<string, Audiovisual> nodo)
+        public static void AgregaraLista(ref List<Audiovisual> model, BNodo<string, Audiovisual> nodo)
         {
             foreach (var item in nodo.Hijos)
             {
@@ -42,11 +42,6 @@ namespace EDProyecto1.Controllers
             {
                 model.Add(item.Apuntador);
             }
-        }
-        // GET: Administrador/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
         }
 
         // GET: Administrador/Create
@@ -157,8 +152,8 @@ namespace EDProyecto1.Controllers
         [HttpPost]
         public ActionResult CargaArchivoJSON(HttpPostedFileBase file)
         {
-            string filePath = string.Empty;
             Archivo modelo = new Archivo();
+            string filePath = string.Empty;
             if (file != null)
             {
                 string ruta = Server.MapPath("~/Temp/");
@@ -228,7 +223,7 @@ namespace EDProyecto1.Controllers
             return RedirectToAction("InterfazAdmin");
         }
 
-        public void ConvertiraLista(ref List<Audiovisual> model)
+        public static void ConvertiraLista(ref List<Audiovisual> model)
         {
             AgregaraLista(ref model, DefaultConnection.BArbolDocumentaryPorNombre.Raiz);
             AgregaraLista(ref model, DefaultConnection.BArbolMoviePorNombre.Raiz);

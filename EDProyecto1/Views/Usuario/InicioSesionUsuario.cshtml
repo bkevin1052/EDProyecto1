@@ -1,8 +1,8 @@
 ﻿@model EDProyecto1.Models.Usuario
 
 @{
-    ViewBag.Title = "InicioSesionUsuario";
-}
+    ViewBag.Title = "Inicio sesion Usuario";
+} 
 <!DOCTYPE HTML>
 <!--
     Forty by HTML5 UP
@@ -10,7 +10,7 @@
 -->
 <html>
 <head>
-    <title>User Register</title>
+    <title>User Log In</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <!--[if lte IE 8]><script src="~/Content/assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -19,7 +19,10 @@
     <!--[if lte IE 8]><link rel="stylesheet" href="~/Content/assets/css/ie8.css" /><![endif]-->
 </head>
 <body>
-
+    <br>
+    <br>
+    <br>
+    <br>
     <!-- Wrapper -->
     <div id="wrapper">
 
@@ -43,7 +46,7 @@
         <section id="contact">
             <div class="inner">
                 <section>
-                    <form method="post" action="#">                        
+                    <form method="post" action="#">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-20">

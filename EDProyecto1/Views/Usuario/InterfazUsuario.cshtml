@@ -6,7 +6,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Landing - Forty by HTML5 UP</title>
+    <title>User</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <!--[if lte IE 8]><script src="~/Content/assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -15,7 +15,10 @@
     <!--[if lte IE 8]><link rel="stylesheet" href="~/Content/assets/css/ie8.css" /><![endif]-->
 </head>
 <body>
-
+    <br>
+    <br>
+    <br>
+    <br>
     <!-- Wrapper -->
     <div id="wrapper">
         <!-- Header -->
@@ -55,23 +58,23 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Tipo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nombre)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Anio)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Genero)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Agregar", "WatchList", new { id = item.AudioVisualID })
-                    </td>
-                </tr>
-}
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tipo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Anio)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Genero)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Agregar", "WatchList", new { id = item.AudioVisualID })
+                            </td>
+                        </tr>
+                    }
                 </table>
             </div>
         </section>
