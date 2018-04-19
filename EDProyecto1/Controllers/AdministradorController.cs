@@ -13,7 +13,7 @@ namespace EDProyecto1.Controllers
 {
     public class AdministradorController : Controller
     {
-        public static List<Audiovisual> model = new List<Audiovisual>();
+        public static List<Audiovisual> modelusuario = new List<Audiovisual>();
         DefaultConnection db = DefaultConnection.getInstance;
         // GET: Administrador
         public ActionResult IniciarSesionAdmin(string Nombre, string Password)
@@ -28,8 +28,10 @@ namespace EDProyecto1.Controllers
         // GET: 
         public ActionResult InterfazAdmin()
         {
+            var model = new List<Audiovisual>();
             ConvertiraLista(ref model);
-            return View(model);
+            modelusuario = model;
+           return View(model);
         }
 
         public static void AgregaraLista(ref List<Audiovisual> model, BNodo<string, Audiovisual> nodo)

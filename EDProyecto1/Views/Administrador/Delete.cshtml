@@ -74,14 +74,13 @@
                         @Html.DisplayFor(model => model.Genero)
                     </dd>
                 </dl>
-
                 @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken()
 
                     <div class="form-actions no-color">
                         <input type="submit" value="Eliminar" class="btn btn-default" /> |
-                        @Html.ActionLink("Regresar a Interfaz", "InterfazAdmin")
+                        @Html.ActionLink("Back to List", "Index")
                     </div>
                 }
             </div>

@@ -25,7 +25,7 @@ namespace EDProyecto1.Controllers
 
         public ActionResult InterfazUsuario()
         {
-            return View(AdministradorController.model);
+            return View(AdministradorController.modelusuario);
         }
 
         public ActionResult WatchList()
