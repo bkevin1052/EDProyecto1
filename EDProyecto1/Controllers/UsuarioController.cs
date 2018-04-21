@@ -12,7 +12,7 @@ namespace EDProyecto1.Controllers
 {
     public class UsuarioController : Controller
     {
-        
+        public static Usuario UsuarioIngresado;
         // GET: Usuario
         public ActionResult InicioSesionUsuario()
         {
@@ -28,9 +28,11 @@ namespace EDProyecto1.Controllers
             return View(AdministradorController.modelusuario);
         }
 
-        public ActionResult WatchList()
+        public ActionResult WatchList(int id)
         {
-            return View();
+            Audiovisual temp = AdministradorController.modelusuario.Where(x => x.AudioVisualID == id).FirstOrDefault();
+            UsuarioIngresado.WatchList.Add(temp);
+            return View(UsuarioIngresado.WatchList);
         }
         
 
@@ -62,6 +64,7 @@ namespace EDProyecto1.Controllers
                 {
                     return View();
                 }
+                UsuarioIngresado = usuarioRegistrado;
                 return RedirectToAction("InterfazUsuario");
             }
             catch
