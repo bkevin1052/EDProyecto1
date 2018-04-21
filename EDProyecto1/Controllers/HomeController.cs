@@ -31,7 +31,10 @@ namespace EDProyecto1.Controllers
             }
             else
             {
-                LeerGrado();
+                if (DefaultConnection.BArbolMoviePorNombre == null)
+                {
+                    LeerGrado();
+                }
                 return View();
             }
             
@@ -119,6 +122,60 @@ namespace EDProyecto1.Controllers
             DefaultConnection.BArbolDocumentaryPorAnio = new BArbol<string, Audiovisual>(grado);
             DefaultConnection.BArbolDocumentaryPorGenero = new BArbol<string, Audiovisual>(grado);
 
+        }
+
+        public ActionResult BusquedaNombre()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult BusquedaNombre(string nombre)
+        {
+            try
+            {
+                var resultado = DefaultConnection.BArbolDocumentaryPorNombre.Search(nombre);
+                List<Audiovisual> modelo = new List<Audiovisual>();
+                if (resultado != null)
+                {
+                    modelo.Add(resultado.Apuntador);
+                    return View(modelo);
+                }
+                else
+                {
+                    resultado = DefaultConnection.BArbolMoviePorNombre.Search(nombre);
+                    if (resultado != null)
+                    {
+                        modelo.Add(resultado.Apuntador);
+                        return View(modelo);
+                    }
+                    else
+                    {
+                        resultado = DefaultConnection.BArbolShowPorNombre.Search(nombre);
+                        if (resultado != null)
+                        {
+                            modelo.Add(resultado.Apuntador);
+                            return View(modelo);
+                        }
+                        else
+                        {
+                            TempData["alertMessage"] = "No se encontro el elemento buscado.";
+                            return View();
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                TempData["alertMessage"] = "No hay nada en el catalogo";
+                return View();
+            }
+
+        }
+
+        public ActionResult Busquedas()
+        {
+            return View();
         }
     }
 }
