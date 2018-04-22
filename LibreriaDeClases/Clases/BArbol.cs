@@ -217,7 +217,7 @@ namespace LibreriaDeClases.Clases
                 {
                     if (HijoIzquierdo != null)
                     {
-                        NodoHijo.Entradas.Insert(0, NodoPadre.Entradas[IndiceSubArbol]);
+                        NodoHijo.Entradas.Insert(0, NodoPadre.Entradas[IndiceSubArbol-1]);
                         var oldEntries = NodoHijo.Entradas;
                         NodoHijo.Entradas = HijoIzquierdo.Entradas;
                         NodoHijo.Entradas.AddRange(oldEntries);
@@ -228,7 +228,7 @@ namespace LibreriaDeClases.Clases
                             NodoHijo.Hijos.AddRange(oldChildren);
                         }
                         NodoPadre.Hijos.RemoveAt(indiceIzquierdo);
-                        NodoPadre.Entradas.RemoveAt(IndiceSubArbol);
+                        NodoPadre.Entradas.RemoveAt(IndiceSubArbol-1);
                     }
                     else
                     {
