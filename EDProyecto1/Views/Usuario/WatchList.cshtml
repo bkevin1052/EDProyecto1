@@ -15,7 +15,12 @@
     <!--[if lte IE 8]><link rel="stylesheet" href="~/Content/assets/css/ie8.css" /><![endif]-->
 </head>
 <body>
-
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <!-- Wrapper -->
     <div id="wrapper">
         <!-- Header -->
@@ -53,22 +58,22 @@
                         <th></th>
                     </tr>
                     @foreach (var item in Model)
-    {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Tipo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nombre)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Anio)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Genero)
-                    </td>
-                </tr>
-}
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tipo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Anio)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Genero)
+                            </td>
+                        </tr>
+                    }
                 </table>
             </div>
         </section>
