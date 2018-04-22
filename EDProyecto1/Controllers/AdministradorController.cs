@@ -315,5 +315,30 @@ namespace EDProyecto1.Controllers
             ViewBag.Correcto = modelo.Confirmacion;
             return RedirectToAction("InterfazAdmin");
         }
+
+        public ActionResult CerrarSesion()
+        {
+            string rutaJSONUsuarios = @"C:\Users\" + Environment.UserName + @"\users.json";
+            StreamWriter writer = new StreamWriter(rutaJSONUsuarios);
+            writer.WriteLine("{");
+            int contador;
+            contador = 1;
+            foreach (var item in DefaultConnection.usuarios)
+            {
+                if (DefaultConnection.usuarios.Last() != item)
+                {
+                    writer.WriteLine("\"nodo" + contador.ToString() + "\":" + JsonConvert.SerializeObject(item) + ",");
+                }
+                else
+                {
+                    writer.WriteLine("\"nodo" + contador.ToString() + "\":" + JsonConvert.SerializeObject(item));
+                }
+                contador++;
+
+            }
+            writer.WriteLine("}");
+            writer.Close();
+            return RedirectToAction("IniciarSesionAdmin");
+        }
     }
 }
