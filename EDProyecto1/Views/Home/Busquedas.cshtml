@@ -1,0 +1,52 @@
+﻿@using EDProyecto1.Models
+@{
+    ViewBag.Title = "Búsquedas";
+}
+@model IEnumerable<Audiovisual>
+@{
+
+}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Administrator</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <!--[if lte IE 8]><script src="~/Content/assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="~/Content/assets/css/main.css" />
+    <!--[if lte IE 9]><link rel="stylesheet" href="~/Content/assets/css/ie9.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="~/Content/assets/css/ie8.css" /><![endif]-->
+</head>
+<body>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- Wrapper -->
+    <div id="wrapper">
+        <!-- Header -->
+        <!-- Note: The "styleN" class below should match that of the banner element. -->
+        <header id="header" class="alt style2">
+            <a href="/Home/Index" class="logo"><strong>GUAFLIX</strong> <span>URL</span></a>
+        </header>
+        <!-- Main -->
+        <div id="main" class="alt">
+
+            <!-- One -->
+            <section id="one">
+                <div class="inner">
+                    <header class="major">
+                        <h1>Búsquedas</h1>
+                    </header>
+                </div>
+            </section>
+        </div>
+        <div class="content">
+            <input type="button" value="BÚSQUEDA POR NOMBRE" onclick="location.href='@Url.Action("BusquedaNombre", "Home" )'" />
+            <input type="button" value="BÚSQUEDA POR AÑO" onclick="location.href='@Url.Action("BusquedaAnio", "Home" )'" />
+            <input type="button" value="BÚSQUEDA POR GÉNERO" onclick="location.href='@Url.Action("BusquedaGenero", "Home")'" />
+        </div>
+
+    </div>
+</body>
+</html>

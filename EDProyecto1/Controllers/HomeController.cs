@@ -31,7 +31,10 @@ namespace EDProyecto1.Controllers
             }
             else
             {
-                LeerGrado();
+                if (DefaultConnection.BArbolMoviePorNombre == null)
+                {
+                    LeerGrado();
+                }
                 return View();
             }
             
@@ -119,6 +122,175 @@ namespace EDProyecto1.Controllers
             DefaultConnection.BArbolDocumentaryPorAnio = new BArbol<string, Audiovisual>(grado);
             DefaultConnection.BArbolDocumentaryPorGenero = new BArbol<string, Audiovisual>(grado);
 
+        }
+
+        public ActionResult BusquedaNombre()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult BusquedaNombre(string nombre)
+        {
+            try
+            {
+                var resultado = DefaultConnection.BArbolDocumentaryPorNombre.Search(nombre);
+                List<Audiovisual> modelo = new List<Audiovisual>();
+                if (resultado != null)
+                {
+                    modelo.Add(resultado.Apuntador);
+                    return View(modelo);
+                }
+                else
+                {
+                    resultado = DefaultConnection.BArbolMoviePorNombre.Search(nombre);
+                    if (resultado != null)
+                    {
+                        modelo.Add(resultado.Apuntador);
+                        return View(modelo);
+                    }
+                    else
+                    {
+                        resultado = DefaultConnection.BArbolShowPorNombre.Search(nombre);
+                        if (resultado != null)
+                        {
+                            modelo.Add(resultado.Apuntador);
+                            return View(modelo);
+                        }
+                        else
+                        {
+                            TempData["alertMessage"] = "No se encontro el elemento buscado.";
+                            return View();
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                TempData["alertMessage"] = "No hay nada en el catalogo";
+                return View();
+            }
+
+        }
+
+        public ActionResult BusquedaAnio()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult BusquedaAnio(string anio, string nombre)
+        {
+            try
+            {
+                int ianio;
+                if (int.TryParse(anio, out ianio))
+                {
+
+
+                    string llave = anio.ToString().PadRight(4) + "_" + nombre;
+                    var resultado = DefaultConnection.BArbolDocumentaryPorAnio.Search(llave);
+                    List<Audiovisual> modelo = new List<Audiovisual>();
+                    if (resultado != null)
+                    {
+                        modelo.Add(resultado.Apuntador);
+                        return View(modelo);
+                    }
+                    else
+                    {
+                        resultado = DefaultConnection.BArbolMoviePorAnio.Search(llave);
+                        if (resultado != null)
+                        {
+                            modelo.Add(resultado.Apuntador);
+                            return View(modelo);
+                        }
+                        else
+                        {
+                            resultado = DefaultConnection.BArbolShowPorAnio.Search(llave);
+                            if (resultado != null)
+                            {
+                                modelo.Add(resultado.Apuntador);
+                                return View(modelo);
+                            }
+                            else
+                            {
+                                TempData["alertMessage"] = "No se encontro el elemento buscado.";
+                                return View();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    TempData["alertMessage"] = "El anio no es valido.";
+                    return View();
+                }
+                
+            }
+            catch
+            {
+                TempData["alertMessage"] = "No hay nada en el catalogo";
+                return View();
+            }
+
+        }
+
+        public ActionResult BusquedaGenero()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult BusquedaGenero(string genero, string nombre)
+        {
+            try
+            {
+
+
+                    string llave = genero.PadRight(20) + "_" + nombre;
+                    var resultado = DefaultConnection.BArbolDocumentaryPorGenero.Search(llave);
+                    List<Audiovisual> modelo = new List<Audiovisual>();
+                    if (resultado != null)
+                    {
+                        modelo.Add(resultado.Apuntador);
+                        return View(modelo);
+                    }
+                    else
+                    {
+                        resultado = DefaultConnection.BArbolMoviePorGenero.Search(llave);
+                        if (resultado != null)
+                        {
+                            modelo.Add(resultado.Apuntador);
+                            return View(modelo);
+                        }
+                        else
+                        {
+                            resultado = DefaultConnection.BArbolShowPorGenero.Search(llave);
+                            if (resultado != null)
+                            {
+                                modelo.Add(resultado.Apuntador);
+                                return View(modelo);
+                            }
+                            else
+                            {
+                                TempData["alertMessage"] = "No se encontro el elemento buscado.";
+                                return View();
+                            }
+                        }
+                    }
+
+            }
+            catch
+            {
+                TempData["alertMessage"] = "No hay nada en el catalogo";
+                return View();
+            }
+
+        }
+
+        public ActionResult Busquedas()
+        {
+            return View();
         }
     }
 }
