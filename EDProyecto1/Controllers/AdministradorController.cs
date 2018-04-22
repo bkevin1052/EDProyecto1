@@ -190,7 +190,7 @@ namespace EDProyecto1.Controllers
                         if (temp.Tipo == "Serie")
                         {
                             DefaultConnection.BArbolShowPorNombre.Insertar(temp.Nombre, temp);
-                            string llave = temp.Anio.ToString() + "_" + temp.Nombre;
+                            string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
                             DefaultConnection.BArbolShowPorAnio.Insertar(llave, temp);
                             llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
                             DefaultConnection.BArbolShowPorGenero.Insertar(llave, temp);
@@ -198,7 +198,7 @@ namespace EDProyecto1.Controllers
                         else if (temp.Tipo == "Película")
                         {
                             DefaultConnection.BArbolMoviePorNombre.Insertar(temp.Nombre, temp);
-                            string llave = temp.Anio.ToString() + "_" + temp.Nombre;
+                            string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
                             DefaultConnection.BArbolMoviePorAnio.Insertar(llave, temp);
                             llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
                             DefaultConnection.BArbolMoviePorGenero.Insertar(llave, temp);
@@ -206,7 +206,7 @@ namespace EDProyecto1.Controllers
                         else if (temp.Tipo == "Documental")
                         {
                             DefaultConnection.BArbolDocumentaryPorNombre.Insertar(temp.Nombre, temp);
-                            string llave = temp.Anio.ToString() + "_" + temp.Nombre;
+                            string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
                             DefaultConnection.BArbolDocumentaryPorAnio.Insertar(llave, temp);
                             llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
                             DefaultConnection.BArbolDocumentaryPorGenero.Insertar(llave, temp);
