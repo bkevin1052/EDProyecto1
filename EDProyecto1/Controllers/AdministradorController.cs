@@ -16,13 +16,24 @@ namespace EDProyecto1.Controllers
         public static List<Audiovisual> modelusuario = new List<Audiovisual>();
         DefaultConnection db = DefaultConnection.getInstance;
         // GET: Administrador
+        public ActionResult IniciarSesionAdmin()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult IniciarSesionAdmin(string Nombre, string Password)
         {
             if (Nombre == "admin" && Password == "admin")
             {
                 return RedirectToAction("InterfazAdmin");
             }
-            return View();
+            else
+            {
+                TempData["alertMessage"] = "Usuario o contrasena incorrecta.";
+                return View();
+            }
+
         }
 
         // GET: 
@@ -84,7 +95,12 @@ namespace EDProyecto1.Controllers
                     llave = audiovisual.Genero.PadRight(20) + "_" + audiovisual.Nombre;
                     DefaultConnection.BArbolDocumentaryPorGenero.Insertar(llave, audiovisual);
                 }
-                return RedirectToAction("Index");
+                else
+                {
+                    TempData["alertMessage"] = "No es un tipo valido. (Documental, Pelicula, Serie) ";
+                    return RedirectToAction("AgregarAdmin");
+                }
+                return RedirectToAction("InterfazAdmin");
             }
             catch
             {
