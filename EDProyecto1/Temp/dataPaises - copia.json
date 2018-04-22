@@ -1,0 +1,23 @@
+﻿{
+  "valor": {
+	"nombre": "Argentina",
+	"Grupo": "A"
+  },
+  "izquierdo": {
+    "valor":  {
+		"nombre": "EEUU",
+		"Grupo": "A"
+	  },
+    "izquierdo": {
+		"valor":  {
+				"nombre": "Corea del Sur",
+				"Grupo": "B"
+			  },
+		"izquierdo": null,
+		"derecho": null
+	  },
+    "derecho": null
+  },
+  "derecho": null
+    
+    }

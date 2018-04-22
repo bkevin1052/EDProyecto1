@@ -39,6 +39,12 @@
                     {
                         <input type="file" name="file" />
                         <input type="submit" value="Import" />
+                        if (null != TempData["alertMessage"])
+                        {
+                            <script type="text/javascript">
+       alert('@TempData["alertMessage"]');
+                            </script>
+                        }
                     }
                 </div>
 
