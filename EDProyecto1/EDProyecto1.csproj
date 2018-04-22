@@ -264,6 +264,7 @@
     <Content Include="Views\Home\Busquedas.cshtml" />
     <Content Include="Views\Home\BusquedaAnio.cshtml" />
     <Content Include="Views\Home\BusquedaGenero.cshtml" />
+    <Content Include="Views\Administrador\CargaArchivoJSONUsuarios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

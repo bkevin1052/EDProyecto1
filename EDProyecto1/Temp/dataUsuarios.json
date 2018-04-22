@@ -1,0 +1,37 @@
+﻿{
+  "nodo1": {
+	"Nombre": "Lesly",
+	"Apellido": "Dubón",
+	"Edad": 19,
+	"Username": "lkdubon",
+	"Password": "Histórico"
+  },
+  "nodo2": {
+	"Nombre": "Raquel",
+	"Apellido": "Melgar",
+	"Edad": 19,
+	"Username": "armelgar",
+	"Password": "Realismo"
+  },
+ "nodo3": {
+	"Nombre": "Angel",
+	"Apellido": "Jiménez",
+	"Edad": 18,
+	"Username": "ajjimenez",
+	"Password": "Naturaleza"
+  },
+ "nodo4": {
+	"Nombre": "Kevin",
+	"Apellido": "Barrientos",
+	"Edad": 19,
+	"Username": "kebarrientos",
+	"Password": "Terror"
+  },
+ "nodo5": {
+	"Nombre": "Danelly",
+	"Apellido": "Monterroso",
+	"Edad": 19,
+	"Username": "kdmonterroso",
+	"Password": "Acción"
+  }
+}

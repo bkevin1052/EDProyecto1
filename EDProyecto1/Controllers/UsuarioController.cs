@@ -13,6 +13,7 @@ namespace EDProyecto1.Controllers
     public class UsuarioController : Controller
     {
         public static Usuario UsuarioIngresado;
+        DefaultConnection db = DefaultConnection.getInstance;
         // GET: Usuario
         public ActionResult InicioSesionUsuario()
         {
@@ -42,10 +43,22 @@ namespace EDProyecto1.Controllers
         {
             try
             {
-                DefaultConnection.BArbolUsuarios.Insertar(nuevoUsuario.Username, nuevoUsuario);
-                DefaultConnection.usuarios.Add(nuevoUsuario);
-                string rutaWatchlistUsuario = @"C:\Users\" + Environment.UserName + @"\" + nuevoUsuario.Username+ @".watchlist";    
-                return RedirectToAction("InicioSesionUsuario");
+                Usuario usuarioRegistrado = DefaultConnection.usuarios.Find(x => (x.Username == nuevoUsuario.Username));
+                if (usuarioRegistrado == null)
+                {
+                    nuevoUsuario.IDUsuario = ++db.IDActual;
+                    DefaultConnection.BArbolUsuarios.Insertar(nuevoUsuario.Username, nuevoUsuario);
+                    DefaultConnection.usuarios.Add(nuevoUsuario);
+
+                    string rutaWatchlistUsuario = @"C:\Users\" + Environment.UserName + @"\" + nuevoUsuario.Username + @".watchlist";
+                    ListaUsuario(rutaWatchlistUsuario, false);
+                    return RedirectToAction("InicioSesionUsuario");
+                }
+                else
+                {
+                    TempData["alertMessage"] = "Username no disponible.";
+                    return RedirectToAction("RegistroUsuario");
+                }
             }
             catch
             {
@@ -62,6 +75,7 @@ namespace EDProyecto1.Controllers
 
                 if(usuarioRegistrado == null)
                 {
+                    TempData["alertMessage"] = "Username o contrasena incorrecta.";
                     return View();
                 }
                 UsuarioIngresado = usuarioRegistrado;
@@ -88,6 +102,12 @@ namespace EDProyecto1.Controllers
                 string linea;
                 linea = $"{contador.ToString("000;-000")}|{contadorPadre.ToString("000;-000")}";
             }
+        }
+        private void ListaUsuario(string rutaArchivo, bool sobrescribir)
+        {
+            StreamWriter GradoWriter = new StreamWriter(rutaArchivo, sobrescribir);
+            GradoWriter.WriteLine("(Vacío)");
+            GradoWriter.Close();
         }
     }
 }

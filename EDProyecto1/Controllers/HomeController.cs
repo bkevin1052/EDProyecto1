@@ -60,7 +60,7 @@ namespace EDProyecto1.Controllers
             if(int.TryParse(Grado, out grado))
             {
                 grado = int.Parse(Grado);
-                if (grado > 1)
+                if (grado > 2)
                 {
                     DefaultConnection.BArbolUsuarios = new BArbol<string, Usuario>(grado);
                     EscribirGrado(rutaUsuarios, false, grado);
@@ -92,7 +92,7 @@ namespace EDProyecto1.Controllers
             }
             else
             {
-                TempData["alertMessage"] = "Ingrese un grado válido. El grado debe ser mayor o igual a 2.";
+                TempData["alertMessage"] = "Ingrese un grado válido. El grado debe ser mayor a 2.";
                 return View();
             }
         }

@@ -247,5 +247,73 @@ namespace EDProyecto1.Controllers
             AgregaraLista(ref model, DefaultConnection.BArbolMoviePorNombre.Raiz);
             AgregaraLista(ref model, DefaultConnection.BArbolShowPorNombre.Raiz);
         }
+        public ActionResult CargaArchivoJSONUsuarios()
+        {
+            return View();
+        }
+
+        //Post SubirArchivoJSON
+        [HttpPost]
+        public ActionResult CargaArchivoJSONUsuarios(HttpPostedFileBase file)
+        {
+            Archivo modelo = new Archivo();
+            string filePath = string.Empty;
+            if (file != null)
+            {
+                string ruta = Server.MapPath("~/Temp/");
+
+                if (!Directory.Exists(ruta))
+                {
+                    Directory.CreateDirectory(ruta);
+                }
+
+                filePath = ruta + Path.GetFileName(file.FileName);
+
+                string extension = Path.GetExtension(file.FileName);
+
+                file.SaveAs(filePath);
+
+                using (StreamReader r = new StreamReader(filePath))
+                {
+                    string json = r.ReadToEnd();
+                    dynamic array = JsonConvert.DeserializeObject(json);
+                    foreach (var item in array)
+                    {
+
+
+                        dynamic itemtemp = JsonConvert.DeserializeObject(item.Value.ToString());
+                        
+                        Usuario temp = new Usuario();
+                        temp.Nombre = itemtemp.Nombre.Value;
+                        temp.Apellido = itemtemp.Apellido.Value;
+                        temp.Edad = Convert.ToInt16(itemtemp.Edad.Value);
+                        temp.Username = itemtemp.Username.Value;
+                        temp.Password = itemtemp.Password.Value;
+                        Usuario usuarioRegistrado = DefaultConnection.usuarios.Find(x => (x.Username == temp.Username));
+                        if (usuarioRegistrado == null)
+                        {
+                            temp.IDUsuario = ++db.IDActual;
+
+                            DefaultConnection.usuarios.Add(temp);
+                            DefaultConnection.BArbolUsuarios.Insertar(temp.Username, temp);
+                        }
+                        else
+                        {
+                            TempData["alertMessage"] = "Username no disponible.";
+                        }
+
+
+                    }
+
+                }
+
+
+                modelo.SubirArchivo(ruta, file);
+
+            }
+            ViewBag.Error = modelo.error;
+            ViewBag.Correcto = modelo.Confirmacion;
+            return RedirectToAction("InterfazAdmin");
+        }
     }
 }
