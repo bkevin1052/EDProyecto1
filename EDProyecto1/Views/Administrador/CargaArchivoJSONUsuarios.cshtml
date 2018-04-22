@@ -1,6 +1,5 @@
-﻿
-@{
-    ViewBag.Title = "CargaArchivoJSON";
+﻿@{
+    ViewBag.Title = "Carga Archivo JSON de Usuarios";
 }
 
 
@@ -33,19 +32,24 @@
                     <img src="images/pic07.jpg" alt="" />
                 </span>
                 <header class="major">
-                    <h1>CargaArchivoJSON</h1>
+                    <h1>Carga de Archivo JSON de Usuarios</h1>
                 </header>
                 <div class="content">
-                    @using (Html.BeginForm("CargaArchivoJSON", "Archivo", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-                <input type="file" name="file" />
-                <input type="submit" value="Import" />
-}
+                    @using (Html.BeginForm("CargaArchivoJSONUsuarios", "Administrador", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <input type="file" name="file" />
+                        <input type="submit" value="Import" />
+                        if (null != TempData["alertMessage"])
+                        {
+                            <script type="text/javascript">
+       alert('@TempData["alertMessage"]');
+                            </script>
+                        }
+                    }
                 </div>
-                
+
             </div>
         </section>
     </div>
 </body>
 </html>
-

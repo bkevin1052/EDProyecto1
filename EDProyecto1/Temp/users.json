@@ -1,0 +1,7 @@
+{
+"nodo1":{"WatchList":[],"IDUsuario":1,"Nombre":"Lesly","Apellido":"Dubón","Edad":19,"Username":"lkdubon","Password":"Histórico"},
+"nodo2":{"WatchList":[],"IDUsuario":2,"Nombre":"Raquel","Apellido":"Melgar","Edad":19,"Username":"armelgar","Password":"Realismo"},
+"nodo3":{"WatchList":[],"IDUsuario":3,"Nombre":"Angel","Apellido":"Jiménez","Edad":18,"Username":"ajjimenez","Password":"Naturaleza"},
+"nodo4":{"WatchList":[],"IDUsuario":4,"Nombre":"Kevin","Apellido":"Barrientos","Edad":19,"Username":"kebarrientos","Password":"Terror"},
+"nodo5":{"WatchList":[],"IDUsuario":5,"Nombre":"Danelly","Apellido":"Monterroso","Edad":19,"Username":"kdmonterroso","Password":"Acción"}
+}

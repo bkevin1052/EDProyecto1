@@ -171,73 +171,81 @@ namespace EDProyecto1.Controllers
         {
             Archivo modelo = new Archivo();
             string filePath = string.Empty;
-            if (file != null)
+            try
             {
-                string ruta = Server.MapPath("~/Temp/");
-
-                if (!Directory.Exists(ruta))
+                if (file != null)
                 {
-                    Directory.CreateDirectory(ruta);
-                }
+                    string ruta = Server.MapPath("~/Temp/");
 
-                filePath = ruta + Path.GetFileName(file.FileName);
-
-                string extension = Path.GetExtension(file.FileName);
-
-                file.SaveAs(filePath);
-
-                using (StreamReader r = new StreamReader(filePath))
-                {
-                    string json = r.ReadToEnd();
-                    dynamic array = JsonConvert.DeserializeObject(json);
-                    foreach (var item in array)
+                    if (!Directory.Exists(ruta))
                     {
+                        Directory.CreateDirectory(ruta);
+                    }
+
+                    filePath = ruta + Path.GetFileName(file.FileName);
+
+                    string extension = Path.GetExtension(file.FileName);
+
+                    file.SaveAs(filePath);
+
+                    using (StreamReader r = new StreamReader(filePath))
+                    {
+                        string json = r.ReadToEnd();
+                        dynamic array = JsonConvert.DeserializeObject(json);
+                        foreach (var item in array)
+                        {
 
 
-                        dynamic itemtemp = JsonConvert.DeserializeObject(item.Value.ToString());
+                            dynamic itemtemp = JsonConvert.DeserializeObject(item.Value.ToString());
 
-                        Audiovisual temp = new Audiovisual();
-                        temp.Tipo = itemtemp.Tipo.Value;
-                        temp.Nombre = itemtemp.Nombre.Value;
-                        temp.Anio = Convert.ToInt16(itemtemp.Anio.Value);
-                        temp.Genero = itemtemp.Genero.Value;
-                        temp.AudioVisualID = ++db.IDActual;
-                        if (temp.Tipo == "Serie")
-                        {
-                            DefaultConnection.BArbolShowPorNombre.Insertar(temp.Nombre, temp);
-                            string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
-                            DefaultConnection.BArbolShowPorAnio.Insertar(llave, temp);
-                            llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
-                            DefaultConnection.BArbolShowPorGenero.Insertar(llave, temp);
-                        }
-                        else if (temp.Tipo == "Película")
-                        {
-                            DefaultConnection.BArbolMoviePorNombre.Insertar(temp.Nombre, temp);
-                            string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
-                            DefaultConnection.BArbolMoviePorAnio.Insertar(llave, temp);
-                            llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
-                            DefaultConnection.BArbolMoviePorGenero.Insertar(llave, temp);
-                        }
-                        else if (temp.Tipo == "Documental")
-                        {
-                            DefaultConnection.BArbolDocumentaryPorNombre.Insertar(temp.Nombre, temp);
-                            string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
-                            DefaultConnection.BArbolDocumentaryPorAnio.Insertar(llave, temp);
-                            llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
-                            DefaultConnection.BArbolDocumentaryPorGenero.Insertar(llave, temp);
+                            Audiovisual temp = new Audiovisual();
+                            temp.Tipo = itemtemp.Tipo.Value;
+                            temp.Nombre = itemtemp.Nombre.Value;
+                            temp.Anio = Convert.ToInt16(itemtemp.Anio.Value);
+                            temp.Genero = itemtemp.Genero.Value;
+                            temp.AudioVisualID = ++db.IDActual;
+                            if (temp.Tipo == "Serie")
+                            {
+                                DefaultConnection.BArbolShowPorNombre.Insertar(temp.Nombre, temp);
+                                string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
+                                DefaultConnection.BArbolShowPorAnio.Insertar(llave, temp);
+                                llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
+                                DefaultConnection.BArbolShowPorGenero.Insertar(llave, temp);
+                            }
+                            else if (temp.Tipo == "Película")
+                            {
+                                DefaultConnection.BArbolMoviePorNombre.Insertar(temp.Nombre, temp);
+                                string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
+                                DefaultConnection.BArbolMoviePorAnio.Insertar(llave, temp);
+                                llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
+                                DefaultConnection.BArbolMoviePorGenero.Insertar(llave, temp);
+                            }
+                            else if (temp.Tipo == "Documental")
+                            {
+                                DefaultConnection.BArbolDocumentaryPorNombre.Insertar(temp.Nombre, temp);
+                                string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
+                                DefaultConnection.BArbolDocumentaryPorAnio.Insertar(llave, temp);
+                                llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
+                                DefaultConnection.BArbolDocumentaryPorGenero.Insertar(llave, temp);
+                            }
+
                         }
 
                     }
 
+
+                    modelo.SubirArchivo(ruta, file);
+
                 }
-
-
-                modelo.SubirArchivo(ruta, file);
-
+                ViewBag.Error = modelo.error;
+                ViewBag.Correcto = modelo.Confirmacion;
+                return RedirectToAction("InterfazAdmin");
             }
-            ViewBag.Error = modelo.error;
-            ViewBag.Correcto = modelo.Confirmacion;
-            return RedirectToAction("InterfazAdmin");
+            catch
+            {
+                TempData["alertMessage"] = "El archivo no es válido ";
+                return RedirectToAction("CargaArchivoJSON");
+            }
         }
 
         public static void ConvertiraLista(ref List<Audiovisual> model)
@@ -245,6 +253,107 @@ namespace EDProyecto1.Controllers
             AgregaraLista(ref model, DefaultConnection.BArbolDocumentaryPorNombre.Raiz);
             AgregaraLista(ref model, DefaultConnection.BArbolMoviePorNombre.Raiz);
             AgregaraLista(ref model, DefaultConnection.BArbolShowPorNombre.Raiz);
+        }
+        public ActionResult CargaArchivoJSONUsuarios()
+        {
+            return View();
+        }
+
+        //Post SubirArchivoJSON
+        [HttpPost]
+        public ActionResult CargaArchivoJSONUsuarios(HttpPostedFileBase file)
+        {
+            try
+            {
+                Archivo modelo = new Archivo();
+                string filePath = string.Empty;
+                if (file != null)
+                {
+                    string ruta = Server.MapPath("~/Temp/");
+
+                    if (!Directory.Exists(ruta))
+                    {
+                        Directory.CreateDirectory(ruta);
+                    }
+
+                    filePath = ruta + Path.GetFileName(file.FileName);
+
+                    string extension = Path.GetExtension(file.FileName);
+
+                    file.SaveAs(filePath);
+
+                    using (StreamReader r = new StreamReader(filePath))
+                    {
+                        string json = r.ReadToEnd();
+                        dynamic array = JsonConvert.DeserializeObject(json);
+                        foreach (var item in array)
+                        {
+
+
+                            dynamic itemtemp = JsonConvert.DeserializeObject(item.Value.ToString());
+
+                            Usuario temp = new Usuario();
+                            temp.Nombre = itemtemp.Nombre.Value;
+                            temp.Apellido = itemtemp.Apellido.Value;
+                            temp.Edad = Convert.ToInt16(itemtemp.Edad.Value);
+                            temp.Username = itemtemp.Username.Value;
+                            temp.Password = itemtemp.Password.Value;
+                            Usuario usuarioRegistrado = DefaultConnection.usuarios.Find(x => (x.Username == temp.Username));
+                            if (usuarioRegistrado == null)
+                            {
+                                temp.IDUsuario = ++db.IDActual;
+
+                                DefaultConnection.usuarios.Add(temp);
+                                DefaultConnection.BArbolUsuarios.Insertar(temp.Username, temp);
+                            }
+                            else
+                            {
+                                TempData["alertMessage"] = "Username no disponible.";
+                            }
+
+
+                        }
+
+                    }
+
+
+                    modelo.SubirArchivo(ruta, file);
+
+                }
+                ViewBag.Error = modelo.error;
+                ViewBag.Correcto = modelo.Confirmacion;
+                return RedirectToAction("InterfazAdmin");
+            }
+            catch
+            {
+                TempData["alertMessage"] = "El archivo no es válido ";
+                return RedirectToAction("CargaArchivoJSONUsuarios");
+            }
+        }
+
+        public ActionResult CerrarSesion()
+        {
+            string rutaJSONUsuarios = @"C:\Users\" + Environment.UserName + @"\users.json";
+            StreamWriter writer = new StreamWriter(rutaJSONUsuarios);
+            writer.WriteLine("{");
+            int contador;
+            contador = 1;
+            foreach (var item in DefaultConnection.usuarios)
+            {
+                if (DefaultConnection.usuarios.Last() != item)
+                {
+                    writer.WriteLine("\"nodo" + contador.ToString() + "\":" + JsonConvert.SerializeObject(item) + ",");
+                }
+                else
+                {
+                    writer.WriteLine("\"nodo" + contador.ToString() + "\":" + JsonConvert.SerializeObject(item));
+                }
+                contador++;
+
+            }
+            writer.WriteLine("}");
+            writer.Close();
+            return RedirectToAction("IniciarSesionAdmin");
         }
     }
 }

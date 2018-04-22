@@ -1,0 +1,10 @@
+﻿[{"país1":{
+	"faltantes": [1,2,3],
+	"coleccionadas": [11,12,13,14],
+	"cambios": [11,18,21]
+}},
+{"país2":{
+	"faltantes": [101,102,103],
+	"coleccionadas": [111,112,113,114],
+	"cambios": [111,118,121]
+}}]
