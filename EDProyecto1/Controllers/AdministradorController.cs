@@ -129,15 +129,15 @@ namespace EDProyecto1.Controllers
                 var model = new List<Audiovisual>();
                 ConvertiraLista(ref model);
                 Audiovisual temp = model.Where(x => x.AudioVisualID == id).FirstOrDefault();
-                if(temp.Tipo == "Documental")
+                if (temp.Tipo == "Documental")
                 {
-                    DefaultConnection.BArbolDocumentaryPorNombre.Eliminar(temp.Nombre);
-                    string llave = temp.Anio.ToString() + "_" + temp.Nombre;
-                    DefaultConnection.BArbolDocumentaryPorAnio.Eliminar(llave);
-                    llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
-                    DefaultConnection.BArbolDocumentaryPorGenero.Eliminar(llave);
+                DefaultConnection.BArbolDocumentaryPorNombre.Eliminar(temp.Nombre);
+                string llave = temp.Anio.ToString() + "_" + temp.Nombre;
+                DefaultConnection.BArbolDocumentaryPorAnio.Eliminar(llave);
+                llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
+                DefaultConnection.BArbolDocumentaryPorGenero.Eliminar(llave);
                 }
-                else if(temp.Tipo == "Serie")
+                else if (temp.Tipo == "Serie")
                 {
                     DefaultConnection.BArbolShowPorNombre.Eliminar(temp.Nombre);
                     string llave = temp.Anio.ToString() + "_" + temp.Nombre;
@@ -154,8 +154,7 @@ namespace EDProyecto1.Controllers
                     DefaultConnection.BArbolMoviePorGenero.Eliminar(llave);
                 }
                 return RedirectToAction("InterfazAdmin");
-            }
-            catch
+            } catch
             {
                 return View();
             }
