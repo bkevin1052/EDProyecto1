@@ -263,6 +263,7 @@
     <Content Include="Views\Home\BusquedaNombre.cshtml" />
     <Content Include="Views\Home\Busquedas.cshtml" />
     <Content Include="Views\Home\BusquedaAnio.cshtml" />
+    <Content Include="Views\Home\BusquedaGenero.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

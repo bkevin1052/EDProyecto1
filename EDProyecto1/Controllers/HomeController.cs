@@ -241,20 +241,15 @@ namespace EDProyecto1.Controllers
         }
 
         [HttpPost]
-        public ActionResult BusquedaGenero(string nombre)
+        public ActionResult BusquedaGenero(string genero, string nombre)
         {
             try
             {
-                var resultado = DefaultConnection.BArbolDocumentaryPorNombre.Search(nombre);
-                List<Audiovisual> modelo = new List<Audiovisual>();
-                if (resultado != null)
-                {
-                    modelo.Add(resultado.Apuntador);
-                    return View(modelo);
-                }
-                else
-                {
-                    resultado = DefaultConnection.BArbolMoviePorNombre.Search(nombre);
+
+
+                    string llave = genero.PadRight(20) + "_" + nombre;
+                    var resultado = DefaultConnection.BArbolDocumentaryPorGenero.Search(llave);
+                    List<Audiovisual> modelo = new List<Audiovisual>();
                     if (resultado != null)
                     {
                         modelo.Add(resultado.Apuntador);
@@ -262,7 +257,7 @@ namespace EDProyecto1.Controllers
                     }
                     else
                     {
-                        resultado = DefaultConnection.BArbolShowPorNombre.Search(nombre);
+                        resultado = DefaultConnection.BArbolMoviePorGenero.Search(llave);
                         if (resultado != null)
                         {
                             modelo.Add(resultado.Apuntador);
@@ -270,11 +265,20 @@ namespace EDProyecto1.Controllers
                         }
                         else
                         {
-                            TempData["alertMessage"] = "No se encontro el elemento buscado.";
-                            return View();
+                            resultado = DefaultConnection.BArbolShowPorGenero.Search(llave);
+                            if (resultado != null)
+                            {
+                                modelo.Add(resultado.Apuntador);
+                                return View(modelo);
+                            }
+                            else
+                            {
+                                TempData["alertMessage"] = "No se encontro el elemento buscado.";
+                                return View();
+                            }
                         }
                     }
-                }
+
             }
             catch
             {
