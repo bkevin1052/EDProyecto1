@@ -264,6 +264,8 @@
     <Content Include="Views\Home\BusquedaAnio.cshtml" />
     <Content Include="Views\Home\BusquedaGenero.cshtml" />
     <Content Include="Views\Administrador\CargaArchivoJSONUsuarios.cshtml" />
+    <Content Include="Views\Usuario\MostrarWatchList.cshtml" />
+    <Content Include="Views\Usuario\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

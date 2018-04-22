@@ -41,47 +41,48 @@
                     <h1>GUAFLIX</h1>
                 </header>
                 <div class="content">
-                    <input type="button" value="WATCHLIST" onclick="location.href='@Url.Action("WatchList", "Usuario" )'" />
+                    <input type="button" value="WATCHLIST" onclick="location.href='@Url.Action("MostrarWatchList", "Usuario" )'" />
                 </div>
-                <table class="table">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Tipo)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Nombre)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Anio)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Genero)
-                        </th>
-                        <th></th>
-                    </tr>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Tipo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Nombre)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Anio)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Genero)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Agregar", "WatchList", new { id = item.AudioVisualID })
-                            </td>
-                        </tr>
-                    }
-                </table>
             </div>
         </section>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Tipo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Anio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Genero)
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Anio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genero)
+                </td>
+                <td>
+                    @Html.ActionLink("Agregar", "WatchList", new { id = item.AudioVisualID })
+                </td>
+            </tr>
+    }
+        </table>
+
     </div>
 </body>
 </html>

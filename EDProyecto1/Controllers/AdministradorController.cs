@@ -16,11 +16,21 @@ namespace EDProyecto1.Controllers
         public static List<Audiovisual> modelusuario = new List<Audiovisual>();
         DefaultConnection db = DefaultConnection.getInstance;
         // GET: Administrador
+        /// <summary>
+        /// Inicio de Sesión de Administrador
+        /// </summary>
+        /// <returns>Vista</returns>
         public ActionResult IniciarSesionAdmin()
         {
             return View();
         }
 
+        /// <summary>
+        /// Verifica que sea el usuario y contraseña correcta.
+        /// </summary>
+        /// <param name="Nombre">Usuario de administrador</param>
+        /// <param name="Password">Contraseña de administrados</param>
+        /// <returns>Interfaz de Administrador o mensaje de error</returns>
         [HttpPost]
         public ActionResult IniciarSesionAdmin(string Nombre, string Password)
         {
@@ -37,6 +47,10 @@ namespace EDProyecto1.Controllers
         }
 
         // GET: 
+        /// <summary>
+        /// Crea el modelo de la interfaz de administrador.
+        /// </summary>
+        /// <returns>Vista</returns>
         public ActionResult InterfazAdmin()
         {
             var model = new List<Audiovisual>();
@@ -45,6 +59,11 @@ namespace EDProyecto1.Controllers
            return View(model);
         }
 
+        /// <summary>
+        /// Recorrer el árbol y lo agrega a la lista deseada.
+        /// </summary>
+        /// <param name="model">Lista de modelo</param>
+        /// <param name="nodo">Nodo</param>
         public static void AgregaraLista(ref List<Audiovisual> model, BNodo<string, Audiovisual> nodo)
         {
             foreach (var item in nodo.Hijos)
@@ -58,12 +77,21 @@ namespace EDProyecto1.Controllers
         }
 
         // GET: Administrador/Create
+        /// <summary>
+        /// Agrega un nuevo film a los árboles.
+        /// </summary>
+        /// <returns>Vista</returns>
         public ActionResult AgregarAdmin()
         {
             return View();
         }
 
         // POST: Administrador/Create
+        /// <summary>
+        /// Agrega un nuevo film a los árboles.
+        /// </summary>
+        /// <param name="audiovisual">Los datos ingresados convertidos a objeto</param>
+        /// <returns>Interfaz de Admin</returns>
         [HttpPost]
         public ActionResult AgregarAdmin([Bind(Include = "AudioVisualID,Tipo,Nombre,Anio,Genero")] Audiovisual audiovisual)
         {
@@ -73,27 +101,36 @@ namespace EDProyecto1.Controllers
                 // TODO: Add insert logic here
                 if (audiovisual.Tipo == "Serie")
                 {
-                    DefaultConnection.BArbolShowPorNombre.Insertar(audiovisual.Nombre, audiovisual);
-                    string llave = audiovisual.Anio.ToString() + "_" + audiovisual.Nombre;
-                    DefaultConnection.BArbolShowPorAnio.Insertar(llave, audiovisual);
-                    llave = audiovisual.Genero.PadRight(20) + "_" + audiovisual.Nombre;
-                    DefaultConnection.BArbolShowPorGenero.Insertar(llave, audiovisual);
+                    if (DefaultConnection.BArbolShowPorNombre.Search(audiovisual.Nombre) == null)
+                    {
+                        DefaultConnection.BArbolShowPorNombre.Insertar(audiovisual.Nombre, audiovisual);
+                        string llave = audiovisual.Anio.ToString() + "_" + audiovisual.Nombre;
+                        DefaultConnection.BArbolShowPorAnio.Insertar(llave, audiovisual);
+                        llave = audiovisual.Genero.PadRight(20) + "_" + audiovisual.Nombre;
+                        DefaultConnection.BArbolShowPorGenero.Insertar(llave, audiovisual);
+                    }
                 }
                 else if (audiovisual.Tipo == "Película")
                 {
-                    DefaultConnection.BArbolMoviePorNombre.Insertar(audiovisual.Nombre, audiovisual);
-                    string llave = audiovisual.Anio.ToString() + "_" + audiovisual.Nombre;
-                    DefaultConnection.BArbolMoviePorAnio.Insertar(llave, audiovisual);
-                    llave = audiovisual.Genero.PadRight(20) + "_" + audiovisual.Nombre;
-                    DefaultConnection.BArbolMoviePorGenero.Insertar(llave, audiovisual);
+                    if (DefaultConnection.BArbolMoviePorNombre.Search(audiovisual.Nombre) == null)
+                    {
+                        DefaultConnection.BArbolMoviePorNombre.Insertar(audiovisual.Nombre, audiovisual);
+                        string llave = audiovisual.Anio.ToString() + "_" + audiovisual.Nombre;
+                        DefaultConnection.BArbolMoviePorAnio.Insertar(llave, audiovisual);
+                        llave = audiovisual.Genero.PadRight(20) + "_" + audiovisual.Nombre;
+                        DefaultConnection.BArbolMoviePorGenero.Insertar(llave, audiovisual);
+                    }
                 }
                 else if (audiovisual.Tipo == "Documental")
                 {
-                    DefaultConnection.BArbolDocumentaryPorNombre.Insertar(audiovisual.Nombre, audiovisual);
-                    string llave = audiovisual.Anio.ToString() + "_" + audiovisual.Nombre;
-                    DefaultConnection.BArbolDocumentaryPorAnio.Insertar(llave, audiovisual);
-                    llave = audiovisual.Genero.PadRight(20) + "_" + audiovisual.Nombre;
-                    DefaultConnection.BArbolDocumentaryPorGenero.Insertar(llave, audiovisual);
+                    if (DefaultConnection.BArbolDocumentaryPorNombre.Search(audiovisual.Nombre) == null)
+                    {
+                        DefaultConnection.BArbolDocumentaryPorNombre.Insertar(audiovisual.Nombre, audiovisual);
+                        string llave = audiovisual.Anio.ToString() + "_" + audiovisual.Nombre;
+                        DefaultConnection.BArbolDocumentaryPorAnio.Insertar(llave, audiovisual);
+                        llave = audiovisual.Genero.PadRight(20) + "_" + audiovisual.Nombre;
+                        DefaultConnection.BArbolDocumentaryPorGenero.Insertar(llave, audiovisual);
+                    }
                 }
                 else
                 {
@@ -111,6 +148,11 @@ namespace EDProyecto1.Controllers
         
 
         // GET: Administrador/Delete/5
+        /// <summary>
+        /// Busca el objeto que se desea eliminar.
+        /// </summary>
+        /// <param name="id">Id del objeto que se desea eliminar</param>
+        /// <returns>Vista</returns>
         public ActionResult Delete(int id)
         {
             var model = new List<Audiovisual>();
@@ -206,27 +248,36 @@ namespace EDProyecto1.Controllers
                             temp.AudioVisualID = ++db.IDActual;
                             if (temp.Tipo == "Serie")
                             {
-                                DefaultConnection.BArbolShowPorNombre.Insertar(temp.Nombre, temp);
-                                string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
-                                DefaultConnection.BArbolShowPorAnio.Insertar(llave, temp);
-                                llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
-                                DefaultConnection.BArbolShowPorGenero.Insertar(llave, temp);
+                                if (DefaultConnection.BArbolShowPorNombre.Search(temp.Nombre) == null)
+                                {
+                                    DefaultConnection.BArbolShowPorNombre.Insertar(temp.Nombre, temp);
+                                    string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
+                                    DefaultConnection.BArbolShowPorAnio.Insertar(llave, temp);
+                                    llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
+                                    DefaultConnection.BArbolShowPorGenero.Insertar(llave, temp);
+                                }
                             }
                             else if (temp.Tipo == "Película")
                             {
-                                DefaultConnection.BArbolMoviePorNombre.Insertar(temp.Nombre, temp);
-                                string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
-                                DefaultConnection.BArbolMoviePorAnio.Insertar(llave, temp);
-                                llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
-                                DefaultConnection.BArbolMoviePorGenero.Insertar(llave, temp);
+                                if (DefaultConnection.BArbolMoviePorNombre.Search(temp.Nombre) == null)
+                                {
+                                    DefaultConnection.BArbolMoviePorNombre.Insertar(temp.Nombre, temp);
+                                    string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
+                                    DefaultConnection.BArbolMoviePorAnio.Insertar(llave, temp);
+                                    llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
+                                    DefaultConnection.BArbolMoviePorGenero.Insertar(llave, temp);
+                                }
                             }
                             else if (temp.Tipo == "Documental")
                             {
-                                DefaultConnection.BArbolDocumentaryPorNombre.Insertar(temp.Nombre, temp);
-                                string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
-                                DefaultConnection.BArbolDocumentaryPorAnio.Insertar(llave, temp);
-                                llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
-                                DefaultConnection.BArbolDocumentaryPorGenero.Insertar(llave, temp);
+                                if (DefaultConnection.BArbolDocumentaryPorNombre.Search(temp.Nombre) == null)
+                                {
+                                    DefaultConnection.BArbolDocumentaryPorNombre.Insertar(temp.Nombre, temp);
+                                    string llave = temp.Anio.ToString().PadRight(4) + "_" + temp.Nombre;
+                                    DefaultConnection.BArbolDocumentaryPorAnio.Insertar(llave, temp);
+                                    llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
+                                    DefaultConnection.BArbolDocumentaryPorGenero.Insertar(llave, temp);
+                                }
                             }
 
                         }
@@ -302,7 +353,8 @@ namespace EDProyecto1.Controllers
                             if (usuarioRegistrado == null)
                             {
                                 temp.IDUsuario = ++db.IDActual;
-
+                                string rutaWatchlistUsuario = @"C:\Users\" + Environment.UserName + @"\" + temp.Username + @".watchlist";
+                                IniciarListaUsuario(rutaWatchlistUsuario, false);
                                 DefaultConnection.usuarios.Add(temp);
                                 DefaultConnection.BArbolUsuarios.Insertar(temp.Username, temp);
                             }
@@ -354,6 +406,12 @@ namespace EDProyecto1.Controllers
             writer.WriteLine("}");
             writer.Close();
             return RedirectToAction("IniciarSesionAdmin");
+        }
+        private void IniciarListaUsuario(string rutaArchivo, bool sobrescribir)
+        {
+            StreamWriter GradoWriter = new StreamWriter(rutaArchivo, sobrescribir);
+            GradoWriter.WriteLine("(Vacío)");
+            GradoWriter.Close();
         }
     }
 }
