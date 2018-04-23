@@ -82,6 +82,10 @@ namespace EDProyecto1.Controllers
                     TempData["alertMessage"] = "Username o contrasena incorrecta.";
                     return View();
                 }
+                if(DefaultConnection.BArbolUsuarios.Search(Username).Apuntador.WatchList.Count == 0)
+                {
+                    LeerArchivo(usuarioRegistrado);
+                }
                 UsuarioIngresado = usuarioRegistrado;
                 return RedirectToAction("InterfazUsuario");
             }
@@ -91,6 +95,91 @@ namespace EDProyecto1.Controllers
             }
         }
 
+        private void LeerArchivo(Usuario usuario)
+        {
+            string filePath = @"C:\Users\" + Environment.UserName + @"\" + usuario.Username + @".watchlist";
+            try
+            {
+
+                using (StreamReader r = new StreamReader(filePath))
+                {
+                    string linea = r.ReadLine();
+                    if(linea != "(Vacío)")
+                    {
+                        while(linea != null)
+                        {
+                            linea = linea.Replace("  ","");
+                            linea = linea.Replace(" ,", ",");
+                            var array = linea.Split(',');
+                            Audiovisual temp = new Audiovisual();
+                            temp.Tipo = array[0];
+                            temp.Nombre = array[1];
+                            temp.Anio = int.Parse(array[2]);
+                            temp.Genero = array[3];
+                            if(temp.Tipo == "Documental")
+                            {
+                                var audiovisualCatalogo = DefaultConnection.BArbolDocumentaryPorNombre.Search(temp.Nombre);
+                                if(audiovisualCatalogo != null)
+                                {
+                                    temp.AudioVisualID = audiovisualCatalogo.Apuntador.AudioVisualID;
+                                    AgregarWatchlistArchivo(DefaultConnection.BArbolUsuarios.Raiz, usuario, temp);
+                                }
+                            }
+                            else if (temp.Tipo == "Serie")
+                            {
+                                var audiovisualCatalogo = DefaultConnection.BArbolShowPorNombre.Search(temp.Nombre);
+                                if (audiovisualCatalogo != null)
+                                {
+                                    temp.AudioVisualID = audiovisualCatalogo.Apuntador.AudioVisualID;
+                                    AgregarWatchlistArchivo(DefaultConnection.BArbolUsuarios.Raiz, usuario, temp);
+                                }
+                            }
+                            else if (temp.Tipo == "Película")
+                            {
+                                var audiovisualCatalogo = DefaultConnection.BArbolMoviePorNombre.Search(temp.Nombre);
+                                if (audiovisualCatalogo != null)
+                                {
+                                    temp.AudioVisualID = audiovisualCatalogo.Apuntador.AudioVisualID;
+                                    AgregarWatchlistArchivo(DefaultConnection.BArbolUsuarios.Raiz, usuario, temp);
+                                }
+                            }
+                            linea = r.ReadLine();
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                TempData["alertMessage"] = "El archivo no es válido ";
+            }
+        }
+
+        private string AgregarWatchlistArchivo(BNodo<string, Usuario> nodo, Usuario usuarioIngresado, Audiovisual audiovisual)
+        {
+            int contador;
+            contador = 0;
+            foreach (var item in nodo.Hijos)
+            {
+                AgregarWatchlistArchivo(nodo.Hijos[contador], usuarioIngresado, audiovisual);
+                contador++;
+            }
+            foreach (var item in nodo.Entradas)
+            {
+                if (item.Apuntador == usuarioIngresado)
+                {
+                    Audiovisual yaAgregado = item.Apuntador.WatchList.Where(x => x.Nombre == audiovisual.Nombre).FirstOrDefault();
+                    if (yaAgregado == null)
+                    {
+                        item.Apuntador.WatchList.Add(audiovisual);
+                    }
+                    else
+                    {
+                        return "Este elemento ya se encuentra en su watchlist";
+                    }
+                }
+            }
+            return "El elemento fue agregado exitosamente.";
+        }
         private void EscribirUsuariosDisco(string rutaArchivo)
         {
             StreamWriter GradoWriter = new StreamWriter(rutaArchivo, false);

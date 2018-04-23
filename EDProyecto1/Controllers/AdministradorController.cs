@@ -354,7 +354,10 @@ namespace EDProyecto1.Controllers
                             {
                                 temp.IDUsuario = ++db.IDActual;
                                 string rutaWatchlistUsuario = @"C:\Users\" + Environment.UserName + @"\" + temp.Username + @".watchlist";
-                                IniciarListaUsuario(rutaWatchlistUsuario, false);
+                                if (!System.IO.File.Exists(rutaWatchlistUsuario))
+                                {
+                                    IniciarListaUsuario(rutaWatchlistUsuario, false);
+                                }
                                 DefaultConnection.usuarios.Add(temp);
                                 DefaultConnection.BArbolUsuarios.Insertar(temp.Username, temp);
                             }
