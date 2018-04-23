@@ -187,7 +187,6 @@ namespace EDProyecto1.Controllers
             GradoWriter.WriteLine("Raíz: " + 1.ToString());
             GradoWriter.Close();
         }
-            }
         private void IniciarListaUsuario(string rutaArchivo, bool sobrescribir)
         {
             StreamWriter GradoWriter = new StreamWriter(rutaArchivo, sobrescribir);
