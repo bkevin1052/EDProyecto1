@@ -369,8 +369,8 @@ namespace LibreriaDeClases.Clases
                 }
                 else
                 {
-                    nuevoNodo.Hijos.AddRange(nodoMover.Hijos.GetRange((this.Grado / 2), (this.Grado / 2)));
-                    nodoMover.Hijos.RemoveRange((this.Grado / 2), (this.Grado / 2));
+                    nuevoNodo.Hijos.AddRange(nodoMover.Hijos.GetRange((this.Grado / 2)+1, (this.Grado / 2)+1));
+                    nodoMover.Hijos.RemoveRange((this.Grado / 2)+1, (this.Grado / 2)+1);
                 }
                 
             }

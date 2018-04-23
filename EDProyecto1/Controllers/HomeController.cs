@@ -121,7 +121,7 @@ namespace EDProyecto1.Controllers
             DefaultConnection.BArbolDocumentaryPorNombre = new BArbol<string, Audiovisual>(grado);
             DefaultConnection.BArbolDocumentaryPorAnio = new BArbol<string, Audiovisual>(grado);
             DefaultConnection.BArbolDocumentaryPorGenero = new BArbol<string, Audiovisual>(grado);
-
+            lector.Close();
         }
 
         public ActionResult BusquedaNombre()

@@ -56,7 +56,7 @@ namespace EDProyecto1.Controllers
             var model = new List<Audiovisual>();
             ConvertiraLista(ref model);
             modelusuario = model;
-           return View(model);
+            return View(model);
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace EDProyecto1.Controllers
             }
         }
 
-        
+
 
         // GET: Administrador/Delete/5
         /// <summary>
@@ -173,11 +173,11 @@ namespace EDProyecto1.Controllers
                 Audiovisual temp = model.Where(x => x.AudioVisualID == id).FirstOrDefault();
                 if (temp.Tipo == "Documental")
                 {
-                DefaultConnection.BArbolDocumentaryPorNombre.Eliminar(temp.Nombre);
-                string llave = temp.Anio.ToString() + "_" + temp.Nombre;
-                DefaultConnection.BArbolDocumentaryPorAnio.Eliminar(llave);
-                llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
-                DefaultConnection.BArbolDocumentaryPorGenero.Eliminar(llave);
+                    DefaultConnection.BArbolDocumentaryPorNombre.Eliminar(temp.Nombre);
+                    string llave = temp.Anio.ToString() + "_" + temp.Nombre;
+                    DefaultConnection.BArbolDocumentaryPorAnio.Eliminar(llave);
+                    llave = temp.Genero.PadRight(20) + "_" + temp.Nombre;
+                    DefaultConnection.BArbolDocumentaryPorGenero.Eliminar(llave);
                 }
                 else if (temp.Tipo == "Serie")
                 {
@@ -408,6 +408,97 @@ namespace EDProyecto1.Controllers
             }
             writer.WriteLine("}");
             writer.Close();
+            string rutaArbolUsuarios = @"C:\Users\" + Environment.UserName + @"\users.tree";
+            writer = new StreamWriter(rutaArbolUsuarios, false);
+            writer.WriteLine("Grado: " + DefaultConnection.BArbolUsuarios.Grado.ToString());
+            writer.WriteLine("Raíz: 1");
+            writer.WriteLine("Próxima posición: " + (DefaultConnection.usuarios.Count() + 1).ToString());
+            contador = 1;
+            EscribirArbolUsuario(DefaultConnection.BArbolUsuarios.Raiz, DefaultConnection.BArbolUsuarios.Grado, ref contador, 0, ref writer, rutaArbolUsuarios);
+            writer.Close();
+            EscribirProximaPosicion(contador, rutaArbolUsuarios);
+            string ruta = @"C:\Users\" + Environment.UserName + @"\name.showtree";
+            writer = new StreamWriter(ruta, false);
+            writer.WriteLine("Grado: " + DefaultConnection.BArbolShowPorNombre.Grado.ToString());
+            writer.WriteLine("Raíz: 1");
+            writer.WriteLine("Próxima posición: ");
+            contador = 1;
+            EscribirArbolAudiovisual(DefaultConnection.BArbolShowPorNombre.Raiz, DefaultConnection.BArbolShowPorNombre.Grado, ref contador, 0, ref writer, ruta, DefaultConnection.BArbolShowPorNombre.Raiz);
+            writer.Close();
+            EscribirProximaPosicion(contador, ruta);
+            ruta = @"C:\Users\" + Environment.UserName + @"\genre.showtree";
+            writer = new StreamWriter(ruta, false);
+            writer.WriteLine("Grado: " + DefaultConnection.BArbolShowPorGenero.Grado.ToString());
+            writer.WriteLine("Raíz: 1");
+            writer.WriteLine("Próxima posición: ");
+            contador = 1;
+            EscribirArbolAudiovisual(DefaultConnection.BArbolShowPorGenero.Raiz, DefaultConnection.BArbolShowPorGenero.Grado, ref contador, 0, ref writer, ruta, DefaultConnection.BArbolShowPorGenero.Raiz);
+            writer.Close();
+            EscribirProximaPosicion(contador, ruta);
+            ruta = @"C:\Users\" + Environment.UserName + @"\year.showtree";
+            writer = new StreamWriter(ruta, false);
+            writer.WriteLine("Grado: " + DefaultConnection.BArbolShowPorAnio.Grado.ToString());
+            writer.WriteLine("Raíz: 1");
+            writer.WriteLine("Próxima posición: ");
+            contador = 1;
+            EscribirArbolAudiovisual(DefaultConnection.BArbolShowPorAnio.Raiz, DefaultConnection.BArbolShowPorAnio.Grado, ref contador, 0, ref writer, ruta, DefaultConnection.BArbolShowPorAnio.Raiz);
+            writer.Close();
+            EscribirProximaPosicion(contador, ruta);
+            ruta = @"C:\Users\" + Environment.UserName + @"\name.movietree";
+            writer = new StreamWriter(ruta, false);
+            writer.WriteLine("Grado: " + DefaultConnection.BArbolMoviePorNombre.Grado.ToString());
+            writer.WriteLine("Raíz: 1");
+            writer.WriteLine("Próxima posición: ");
+            contador = 1;
+            EscribirArbolAudiovisual(DefaultConnection.BArbolMoviePorNombre.Raiz, DefaultConnection.BArbolMoviePorNombre.Grado, ref contador, 0, ref writer, ruta, DefaultConnection.BArbolMoviePorNombre.Raiz);
+            writer.Close();
+            EscribirProximaPosicion(contador, ruta);
+            ruta = @"C:\Users\" + Environment.UserName + @"\genre.movietree";
+            writer = new StreamWriter(ruta, false);
+            writer.WriteLine("Grado: " + DefaultConnection.BArbolMoviePorGenero.Grado.ToString());
+            writer.WriteLine("Raíz: 1");
+            writer.WriteLine("Próxima posición: ");
+            contador = 1;
+            EscribirArbolAudiovisual(DefaultConnection.BArbolMoviePorGenero.Raiz, DefaultConnection.BArbolMoviePorGenero.Grado, ref contador, 0, ref writer, ruta, DefaultConnection.BArbolMoviePorGenero.Raiz);
+            writer.Close();
+            EscribirProximaPosicion(contador, ruta);
+            ruta = @"C:\Users\" + Environment.UserName + @"\year.movietree";
+            writer = new StreamWriter(ruta, false);
+            writer.WriteLine("Grado: " + DefaultConnection.BArbolMoviePorAnio.Grado.ToString());
+            writer.WriteLine("Raíz: 1");
+            writer.WriteLine("Próxima posición: ");
+            contador = 1;
+            EscribirArbolAudiovisual(DefaultConnection.BArbolMoviePorAnio.Raiz, DefaultConnection.BArbolMoviePorAnio.Grado, ref contador, 0, ref writer, ruta, DefaultConnection.BArbolMoviePorAnio.Raiz);
+            writer.Close();
+            EscribirProximaPosicion(contador, ruta);
+            ruta = @"C:\Users\" + Environment.UserName + @"\name.documentarytree";
+            writer = new StreamWriter(ruta, false);
+            writer.WriteLine("Grado: " + DefaultConnection.BArbolDocumentaryPorNombre.Grado.ToString());
+            writer.WriteLine("Raíz: 1");
+            writer.WriteLine("Próxima posición: ");
+            contador = 1;
+            EscribirArbolAudiovisual(DefaultConnection.BArbolDocumentaryPorNombre.Raiz, DefaultConnection.BArbolDocumentaryPorNombre.Grado, ref contador, 0, ref writer, ruta, DefaultConnection.BArbolDocumentaryPorNombre.Raiz);
+            writer.Close();
+            EscribirProximaPosicion(contador, ruta);
+            ruta = @"C:\Users\" + Environment.UserName + @"\genre.documentarytree";
+            writer = new StreamWriter(ruta, false);
+            writer.WriteLine("Grado: " + DefaultConnection.BArbolDocumentaryPorGenero.Grado.ToString());
+            writer.WriteLine("Raíz: 1");
+            writer.WriteLine("Próxima posición: ");
+            contador = 1;
+            EscribirArbolAudiovisual(DefaultConnection.BArbolDocumentaryPorGenero.Raiz, DefaultConnection.BArbolDocumentaryPorGenero.Grado, ref contador, 0, ref writer, ruta, DefaultConnection.BArbolDocumentaryPorGenero.Raiz);
+            writer.Close();
+            EscribirProximaPosicion(contador, ruta);
+            ruta = @"C:\Users\" + Environment.UserName + @"\year.documentarytree";
+            writer = new StreamWriter(ruta, false);
+            writer.WriteLine("Grado: " + DefaultConnection.BArbolDocumentaryPorAnio.Grado.ToString());
+            writer.WriteLine("Raíz: 1");
+            writer.WriteLine("Próxima posición: ");
+            contador = 1;
+            EscribirArbolAudiovisual(DefaultConnection.BArbolDocumentaryPorAnio.Raiz, DefaultConnection.BArbolDocumentaryPorAnio.Grado, ref contador, 0, ref writer, ruta, DefaultConnection.BArbolDocumentaryPorAnio.Raiz);
+            writer.Close();
+            EscribirProximaPosicion(contador, ruta);
+
             return RedirectToAction("IniciarSesionAdmin");
         }
         private void IniciarListaUsuario(string rutaArchivo, bool sobrescribir)
@@ -417,12 +508,121 @@ namespace EDProyecto1.Controllers
             GradoWriter.Close();
         }
 
-        private void EscribirArbolUsuario(BNodo<string, Usuario> nodo, int contador, int contadorPadre, StreamWriter writer, string ruta)
+        private void EscribirArbolUsuario(BNodo<string, Usuario> nodo, int grado, ref int contador, int contadorPadre, ref StreamWriter writer, string ruta)
         {
-            foreach (var item in nodo.Entradas)
+            string linea;
+            linea = $"{contador.ToString("000;-000")}|{contadorPadre.ToString("000;-000")}";
+            for (int i = 0; i < grado; i++)
             {
-                string linea;
-                linea = $"{contador.ToString("000;-000")}|{contadorPadre.ToString("000;-000")}";
+                linea += $"|{String.Format("{0, -3}", "")}";
+            }
+            for (int i = 0; i < nodo.Entradas.Count(); i++)
+            {
+                Usuario item = nodo.Entradas[i].Apuntador;
+                linea += $"|{item.ToFixedSizeString()}";
+            }
+            for (int i = nodo.Entradas.Count(); i < (grado - 1); i++)
+            {
+                linea += $"|{String.Format("{0, -87}", "")}";
+            }
+            writer.WriteLine(linea);
+            if (nodo != DefaultConnection.BArbolUsuarios.Raiz)
+            {
+                writer.Close();
+                ReescribirArchivo(contadorPadre, contador, ruta);
+                writer = new StreamWriter(ruta, true);
+            }
+
+            contador++;
+            int contadorHijos;
+            contadorHijos = 0;
+            contadorPadre = contador - 1;
+            foreach (var item in nodo.Hijos)
+            {
+                EscribirArbolUsuario(nodo.Hijos[contadorHijos], grado, ref contador, contadorPadre, ref writer, ruta);
+                contadorHijos++;
+            }
+        }
+
+        private void ReescribirArchivo(int contador, int Posicion, string ruta)
+        {
+            string[] lines = System.IO.File.ReadAllLines(ruta);
+            string line = lines[contador + 2];
+            bool hijoyaIngresado;
+            hijoyaIngresado = false;
+            var linea = line.Split('|');
+            line = "";
+            for (int i = 0; i < linea.Length; i++)
+            {
+                if(i!=0)
+                {
+                    line += $"|";
+                }
+                if(i>1 && linea[i] == "   "&&!hijoyaIngresado)
+                {
+                    line += Posicion.ToString("000;-000");
+                    hijoyaIngresado = true;
+                }
+                else
+                {
+                    line += linea[i];
+                }
+            }
+            lines[contador + 2] = line;
+            StreamWriter writer = new StreamWriter(ruta, false);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                    writer.WriteLine(lines[i]);
+            }
+            writer.Close();
+        }
+
+        private void EscribirProximaPosicion(int Posicion, string ruta)
+        {
+            string[] lines = System.IO.File.ReadAllLines(ruta);
+            lines[2] = "Próxima posición: " + Posicion.ToString();
+            StreamWriter writer = new StreamWriter(ruta, false);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                writer.WriteLine(lines[i]);
+            }
+            writer.Close();
+        }
+
+
+        private void EscribirArbolAudiovisual(BNodo<string, Audiovisual> nodo, int grado, ref int contador, int contadorPadre, ref StreamWriter writer, string ruta, BNodo<string, Audiovisual> raiz)
+        {
+            string linea;
+            linea = $"{contador.ToString("000;-000")}|{contadorPadre.ToString("000;-000")}";
+            for (int i = 0; i < grado; i++)
+            {
+                linea += $"|{String.Format("{0, -3}", "")}";
+            }
+            for (int i = 0; i < nodo.Entradas.Count(); i++)
+            {
+                Audiovisual item = nodo.Entradas[i].Apuntador;
+                linea += $"|{item.ToFixedSizeString()}";
+            }
+            for (int i = nodo.Entradas.Count(); i < (grado - 1); i++)
+            {
+                linea += $"|{String.Format("{0, -66}", "")}";
+            }
+            writer.WriteLine(linea);
+            if (nodo != raiz)
+            {
+                writer.Close();
+                ReescribirArchivo(contadorPadre, contador, ruta);
+                writer = new StreamWriter(ruta, true);
+            }
+
+            contador++;
+            int contadorHijos;
+            contadorHijos = 0;
+            contadorPadre = contador - 1;
+            foreach (var item in nodo.Hijos)
+            {
+                EscribirArbolAudiovisual(nodo.Hijos[contadorHijos], grado, ref contador, contadorPadre, ref writer, ruta, raiz);
+                contadorHijos++;
             }
         }
     }
