@@ -416,5 +416,14 @@ namespace EDProyecto1.Controllers
             GradoWriter.WriteLine("(Vacío)");
             GradoWriter.Close();
         }
+
+        private void EscribirArbolUsuario(BNodo<string, Usuario> nodo, int contador, int contadorPadre, StreamWriter writer, string ruta)
+        {
+            foreach (var item in nodo.Entradas)
+            {
+                string linea;
+                linea = $"{contador.ToString("000;-000")}|{contadorPadre.ToString("000;-000")}";
+            }
+        }
     }
 }

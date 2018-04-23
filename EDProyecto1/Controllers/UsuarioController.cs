@@ -187,15 +187,7 @@ namespace EDProyecto1.Controllers
             GradoWriter.WriteLine("Raíz: " + 1.ToString());
             GradoWriter.Close();
         }
-
-        private void EscribirArbolUsuario(BNodo<string, Usuario> nodo, int contador, int contadorPadre)
-        {
-            foreach(var item in nodo.Entradas)
-            {
-                string linea;
-                linea = $"{contador.ToString("000;-000")}|{contadorPadre.ToString("000;-000")}";
             }
-        }
         private void IniciarListaUsuario(string rutaArchivo, bool sobrescribir)
         {
             StreamWriter GradoWriter = new StreamWriter(rutaArchivo, sobrescribir);
