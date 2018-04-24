@@ -17,7 +17,10 @@ namespace EDProyecto1.Models
         public string Password { get; set; }
 
         public List<Audiovisual>WatchList = new List<Audiovisual>();
-
+        public int FixedSize()
+        {
+            return 87;
+        }
         public string ToFixedSizeString()
         {
             return $"{string.Format("{0,-20}", Nombre)},{string.Format("{0,-20}", Apellido)},{Edad.ToString("000;-000")},{string.Format("{0,-20}", Username)},{string.Format("{0,-20}", Password)}";

@@ -11,7 +11,7 @@ namespace LibreriaDeClases.Clases
     public class BArbol <TKey, T> where TKey : IComparable<TKey>
     {
 
-        public BNodo<TKey, T> Raiz { get; private set; }
+        public BNodo<TKey, T> Raiz { get; set; }
 
         public int Grado { get; private set; }
 
@@ -369,8 +369,8 @@ namespace LibreriaDeClases.Clases
                 }
                 else
                 {
-                    nuevoNodo.Hijos.AddRange(nodoMover.Hijos.GetRange((this.Grado / 2), (this.Grado / 2)));
-                    nodoMover.Hijos.RemoveRange((this.Grado / 2), (this.Grado / 2));
+                    nuevoNodo.Hijos.AddRange(nodoMover.Hijos.GetRange((this.Grado / 2)+1, (this.Grado / 2)+1));
+                    nodoMover.Hijos.RemoveRange((this.Grado / 2)+1, (this.Grado / 2)+1);
                 }
                 
             }
