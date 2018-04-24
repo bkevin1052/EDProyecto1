@@ -27,12 +27,16 @@ namespace EDProyecto1.Controllers
 
         public ActionResult InterfazUsuario()
         {
-            return View(AdministradorController.modelusuario);
+            var model = new List<Audiovisual>();
+            ConvertiraLista(ref model);
+            return View(model);
         }
 
         public ActionResult WatchList(int id)
         {
-            Audiovisual temp = AdministradorController.modelusuario.Where(x => x.AudioVisualID == id).FirstOrDefault();
+            var model = new List<Audiovisual>();
+            ConvertiraLista(ref model);
+            Audiovisual temp = model.Where(x => x.AudioVisualID == id).FirstOrDefault();
             AgregarWatchlist(DefaultConnection.BArbolUsuarios.Raiz, UsuarioIngresado, temp);
             return View(DefaultConnection.BArbolUsuarios.Search(UsuarioIngresado.Username).Apuntador.WatchList);
         }
@@ -53,6 +57,35 @@ namespace EDProyecto1.Controllers
                     nuevoUsuario.IDUsuario = ++db.IDActual;
                     DefaultConnection.BArbolUsuarios.Insertar(nuevoUsuario.Username, nuevoUsuario);
                     DefaultConnection.usuarios.Add(nuevoUsuario);
+                    string rutaJSONUsuarios = @"C:\Users\" + Environment.UserName + @"\users.json";
+                    StreamWriter writer = new StreamWriter(rutaJSONUsuarios);
+                    writer.WriteLine("{");
+                    int contador;
+                    contador = 1;
+                    foreach (var item in DefaultConnection.usuarios)
+                    {
+                        if (DefaultConnection.usuarios.Last() != item)
+                        {
+                            writer.WriteLine("\"nodo" + contador.ToString() + "\":" + JsonConvert.SerializeObject(item) + ",");
+                        }
+                        else
+                        {
+                            writer.WriteLine("\"nodo" + contador.ToString() + "\":" + JsonConvert.SerializeObject(item));
+                        }
+                        contador++;
+
+                    }
+                    writer.WriteLine("}");
+                    writer.Close();
+                    string rutaArbolUsuarios = @"C:\Users\" + Environment.UserName + @"\users.tree";
+                    writer = new StreamWriter(rutaArbolUsuarios, false);
+                    writer.WriteLine("Grado: " + DefaultConnection.BArbolUsuarios.Grado.ToString());
+                    writer.WriteLine("Raíz: 1");
+                    writer.WriteLine("Próxima posición: " + (DefaultConnection.usuarios.Count() + 1).ToString());
+                    contador = 1;
+                    EscribirArbolUsuario(DefaultConnection.BArbolUsuarios.Raiz, DefaultConnection.BArbolUsuarios.Grado, ref contador, 0, ref writer, rutaArbolUsuarios);
+                    writer.Close();
+                    EscribirProximaPosicion(contador, rutaArbolUsuarios);
 
                     string rutaWatchlistUsuario = @"C:\Users\" + Environment.UserName + @"\" + nuevoUsuario.Username + @".watchlist";
                     IniciarListaUsuario(rutaWatchlistUsuario, false);
@@ -245,8 +278,9 @@ namespace EDProyecto1.Controllers
         /// <returns>Vista</returns>
         public ActionResult Delete(int id)
         {
-            
-            return View(AdministradorController.modelusuario.Where(x => x.AudioVisualID == id).FirstOrDefault());
+            var model = new List<Audiovisual>();
+            ConvertiraLista(ref model);
+            return View(model.Where(x => x.AudioVisualID == id).FirstOrDefault());
         }
 
         // POST: Administrador/Delete/5
@@ -256,7 +290,9 @@ namespace EDProyecto1.Controllers
             try
             {
                 // TODO: Add delete logic here
-                Audiovisual temp = AdministradorController.modelusuario.Where(x => x.AudioVisualID == id).FirstOrDefault();
+                var model = new List<Audiovisual>();
+                ConvertiraLista(ref model);
+                Audiovisual temp = model.Where(x => x.AudioVisualID == id).FirstOrDefault();
                 EliminarWatchlist(DefaultConnection.BArbolUsuarios.Raiz, UsuarioIngresado, temp);
                 return RedirectToAction("MostrarWatchList");
             }
@@ -293,6 +329,104 @@ namespace EDProyecto1.Controllers
                 GradoWriter.WriteLine(item.ToFixedSizeString());
             }
             GradoWriter.Close();
+        }
+
+        private void EscribirArbolUsuario(BNodo<string, Usuario> nodo, int grado, ref int contador, int contadorPadre, ref StreamWriter writer, string ruta)
+        {
+            string linea;
+            linea = $"{contador.ToString("000;-000")}|{contadorPadre.ToString("000;-000")}";
+            for (int i = 0; i < grado; i++)
+            {
+                linea += $"|{String.Format("{0, -3}", "")}";
+            }
+            for (int i = 0; i < nodo.Entradas.Count(); i++)
+            {
+                Usuario item = nodo.Entradas[i].Apuntador;
+                linea += $"|{item.ToFixedSizeString()}";
+            }
+            for (int i = nodo.Entradas.Count(); i < (grado - 1); i++)
+            {
+                linea += $"|{String.Format("{0, -87}", "")}";
+            }
+            writer.WriteLine(linea);
+            if (nodo != DefaultConnection.BArbolUsuarios.Raiz)
+            {
+                writer.Close();
+                ReescribirArchivo(contadorPadre, contador, ruta);
+                writer = new StreamWriter(ruta, true);
+            }
+
+            contador++;
+            int contadorHijos;
+            contadorHijos = 0;
+            contadorPadre = contador - 1;
+            foreach (var item in nodo.Hijos)
+            {
+                EscribirArbolUsuario(nodo.Hijos[contadorHijos], grado, ref contador, contadorPadre, ref writer, ruta);
+                contadorHijos++;
+            }
+        }
+
+        private void ReescribirArchivo(int contador, int Posicion, string ruta)
+        {
+            string[] lines = System.IO.File.ReadAllLines(ruta);
+            string line = lines[contador + 2];
+            bool hijoyaIngresado;
+            hijoyaIngresado = false;
+            var linea = line.Split('|');
+            line = "";
+            for (int i = 0; i < linea.Length; i++)
+            {
+                if (i != 0)
+                {
+                    line += $"|";
+                }
+                if (i > 1 && linea[i] == "   " && !hijoyaIngresado)
+                {
+                    line += Posicion.ToString("000;-000");
+                    hijoyaIngresado = true;
+                }
+                else
+                {
+                    line += linea[i];
+                }
+            }
+            lines[contador + 2] = line;
+            StreamWriter writer = new StreamWriter(ruta, false);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                writer.WriteLine(lines[i]);
+            }
+            writer.Close();
+        }
+
+        private void EscribirProximaPosicion(int Posicion, string ruta)
+        {
+            string[] lines = System.IO.File.ReadAllLines(ruta);
+            lines[2] = "Próxima posición: " + Posicion.ToString();
+            StreamWriter writer = new StreamWriter(ruta, false);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                writer.WriteLine(lines[i]);
+            }
+            writer.Close();
+        }
+        public static void ConvertiraLista(ref List<Audiovisual> model)
+        {
+            AgregaraLista(ref model, DefaultConnection.BArbolDocumentaryPorNombre.Raiz);
+            AgregaraLista(ref model, DefaultConnection.BArbolMoviePorNombre.Raiz);
+            AgregaraLista(ref model, DefaultConnection.BArbolShowPorNombre.Raiz);
+        }
+        public static void AgregaraLista(ref List<Audiovisual> model, BNodo<string, Audiovisual> nodo)
+        {
+            foreach (var item in nodo.Hijos)
+            {
+                AgregaraLista(ref model, item);
+            }
+            foreach (var item in nodo.Entradas)
+            {
+                model.Add(item.Apuntador);
+            }
         }
     }
 }

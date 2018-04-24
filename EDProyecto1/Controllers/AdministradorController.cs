@@ -55,7 +55,6 @@ namespace EDProyecto1.Controllers
         {
             var model = new List<Audiovisual>();
             ConvertiraLista(ref model);
-            modelusuario = model;
             return View(model);
         }
 

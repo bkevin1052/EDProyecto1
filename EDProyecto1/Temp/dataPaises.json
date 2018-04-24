@@ -1,0 +1,71 @@
+﻿{
+  "valor": {
+	"nombre": "Argentina",
+	"Grupo": "A"
+  },
+  "izquierdo": {
+    "valor":  {
+		"nombre": "EEUU",
+		"Grupo": "A"
+	  },
+    "izquierdo": {
+		"valor":  {
+				"nombre": "Corea del Sur",
+				"Grupo": "B"
+			  },
+		"izquierdo": null,
+		"derecho": null
+	  },
+    "derecho":  {
+		"valor":  {
+				"nombre": "Senegal",
+				"Grupo": "C"
+			  },
+		"izquierdo": null,
+		"derecho": null
+	  }
+  },
+  "derecho": {
+    "valor":  {
+			"nombre": "Francia",
+			"Grupo": "D"
+		  },
+    "izquierdo": {
+      "valor":  {
+				"nombre": "Honduras",
+				"Grupo": "F"
+			  },
+      "izquierdo": null,
+      "derecho": null
+    },
+    "derecho": {
+      "valor":  {
+			"nombre": "Costa Rica",
+			"Grupo": "F"
+		  },
+      "izquierdo": {
+        "valor":  {
+				"nombre": "España",
+				"Grupo": "C"
+			  },
+        "izquierdo": null,
+        "derecho": null
+      },
+      "derecho": {
+        "valor":  {
+				"nombre": "Alemania",
+				"Grupo": "B"
+			  },
+        "izquierdo": {
+          "valor":  {
+			"nombre": "Brasil",
+			"Grupo": "D"
+		  },
+          "izquierdo": null,
+          "derecho": null
+        },
+        "derecho": null
+      }
+    }
+  }
+}
