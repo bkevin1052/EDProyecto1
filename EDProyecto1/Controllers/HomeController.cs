@@ -22,7 +22,8 @@ namespace EDProyecto1.Controllers
         string rutaArbolDocumentaryporNombre = @"C:\Users\" + Environment.UserName + @"\name.documentarytree";
         string rutaArbolDocumentaryporGenero = @"C:\Users\" + Environment.UserName + @"\genre.documentarytree";
         string rutaArbolDocumentaryporAnio = @"C:\Users\" + Environment.UserName + @"\year.documentarytree";
-        public static BArbol<int, string> ArbolPrueba = new BArbol<int, string>(4);
+        DefaultConnection db = DefaultConnection.getInstance;
+
         public ActionResult Index()
         {
             if(!System.IO.File.Exists(rutaUsuarios))
@@ -34,12 +35,143 @@ namespace EDProyecto1.Controllers
                 if (DefaultConnection.BArbolMoviePorNombre == null)
                 {
                     LeerGrado();
+                    LeerArchivo();
+
                 }
                 return View();
             }
             
         }
 
+        private void LeerArchivo()
+        {
+            string[] lines = System.IO.File.ReadAllLines(rutaUsuarios);
+            int raiz = Convert.ToInt16(lines[1].Remove(0, 6));
+            LeerArbolUsuarios(lines, (raiz + 2), DefaultConnection.BArbolUsuarios.Grado, null, DefaultConnection.BArbolUsuarios);
+            lines = System.IO.File.ReadAllLines(rutaArbolDocumentaryporAnio);
+            raiz = Convert.ToInt16(lines[1].Remove(0, 6));
+            LeerArbolAudiovisual(lines, (raiz + 2), DefaultConnection.BArbolDocumentaryPorAnio.Grado, null, DefaultConnection.BArbolDocumentaryPorAnio, 2);
+            lines = System.IO.File.ReadAllLines(rutaArbolDocumentaryporGenero);
+            raiz = Convert.ToInt16(lines[1].Remove(0, 6));
+            LeerArbolAudiovisual(lines, (raiz + 2), DefaultConnection.BArbolDocumentaryPorGenero.Grado, null, DefaultConnection.BArbolDocumentaryPorGenero, 1);
+            lines = System.IO.File.ReadAllLines(rutaArbolDocumentaryporNombre);
+            raiz = Convert.ToInt16(lines[1].Remove(0, 6));
+            LeerArbolAudiovisual(lines, (raiz + 2), DefaultConnection.BArbolDocumentaryPorNombre.Grado, null, DefaultConnection.BArbolDocumentaryPorNombre, 0);
+            lines = System.IO.File.ReadAllLines(rutaArbolMovieporAnio);
+            raiz = Convert.ToInt16(lines[1].Remove(0, 6));
+            LeerArbolAudiovisual(lines, (raiz + 2), DefaultConnection.BArbolMoviePorAnio.Grado, null, DefaultConnection.BArbolMoviePorAnio, 2);
+            lines = System.IO.File.ReadAllLines(rutaArbolMovieporGenero);
+            raiz = Convert.ToInt16(lines[1].Remove(0, 6));
+            LeerArbolAudiovisual(lines, (raiz + 2), DefaultConnection.BArbolMoviePorGenero.Grado, null, DefaultConnection.BArbolMoviePorGenero, 1);
+            lines = System.IO.File.ReadAllLines(rutaArbolMovieporNombre);
+            raiz = Convert.ToInt16(lines[1].Remove(0, 6));
+            LeerArbolAudiovisual(lines, (raiz + 2), DefaultConnection.BArbolMoviePorNombre.Grado, null, DefaultConnection.BArbolMoviePorNombre, 0);
+            lines = System.IO.File.ReadAllLines(rutaArbolShowporAnio);
+            raiz = Convert.ToInt16(lines[1].Remove(0, 6));
+            LeerArbolAudiovisual(lines, (raiz + 2), DefaultConnection.BArbolShowPorAnio.Grado, null, DefaultConnection.BArbolShowPorAnio, 2);
+            lines = System.IO.File.ReadAllLines(rutaArbolShowporGenero);
+            raiz = Convert.ToInt16(lines[1].Remove(0, 6));
+            LeerArbolAudiovisual(lines, (raiz + 2), DefaultConnection.BArbolShowPorGenero.Grado, null, DefaultConnection.BArbolShowPorGenero, 1);
+            lines = System.IO.File.ReadAllLines(rutaArbolShowporNombre);
+            raiz = Convert.ToInt16(lines[1].Remove(0, 6));
+            LeerArbolAudiovisual(lines, (raiz + 2), DefaultConnection.BArbolShowPorNombre.Grado, null, DefaultConnection.BArbolShowPorNombre, 0);
+        }
+
+        private void LeerArbolUsuarios(string[] lines, int nlinea, int grado, BNodo<string, Usuario> nodoPadre, BArbol<string, Usuario> arbol)
+        {
+            string[] linea = lines[nlinea].Split('|');
+            BNodo<string, Usuario> Nodo = new BNodo<string, Usuario>(grado);
+            for (int i = (2 + grado); i < (linea.Count()); i++)
+            {
+                if (!(linea[i] == String.Format("{0, -87}", "")))
+                {
+                    linea[i] = linea[i].Replace("  ", "");
+                    linea[i] = linea[i].Replace(" ,", ",");
+                    linea[i] = linea[i].Trim();
+                    string[] lineaUsuario = linea[i].Split(',');
+                    Usuario nuevoUsuario = new Usuario();
+                    nuevoUsuario.Nombre = lineaUsuario[0];
+                    nuevoUsuario.Apellido = lineaUsuario[1];
+                    nuevoUsuario.Edad = Convert.ToInt16(lineaUsuario[2]);
+                    nuevoUsuario.Username = lineaUsuario[3];
+                    nuevoUsuario.Password = lineaUsuario[4];
+                    nuevoUsuario.IDUsuario = db.IDActual++;
+                    Entry<string, Usuario> entry = new Entry<string, Usuario>();
+                    entry.LLave = nuevoUsuario.Username;
+                    entry.Apuntador = nuevoUsuario;
+                    Nodo.Entradas.Add(entry);
+                    DefaultConnection.usuarios.Add(nuevoUsuario);
+                }
+            }
+            for (int i = 2; i < (2+grado) ; i++)
+            {
+                if (!(linea[i] == String.Format("{0, -3}", "")))
+                {
+                    LeerArbolUsuarios(lines, (Convert.ToInt16(linea[i])+2), grado, Nodo, arbol);
+                }
+            }
+            if (nodoPadre == null)
+            {
+                arbol.Raiz = Nodo;
+            }
+            else
+            {
+                nodoPadre.Hijos.Add(Nodo);
+            }
+        }
+        private void LeerArbolAudiovisual(string[] lines, int nlinea, int grado, BNodo<string, Audiovisual> nodoPadre, BArbol<string, Audiovisual> arbol, int llave)
+        {
+            string[] linea = lines[nlinea].Split('|');
+            BNodo<string, Audiovisual> Nodo = new BNodo<string, Audiovisual>(grado);
+            for (int i = (2 + grado); i < (linea.Count()); i++)
+            {
+                if (!(linea[i] == String.Format("{0, -66}", "")))
+                {
+                    linea[i] = linea[i].Replace("  ", "");
+                    linea[i] = linea[i].Replace(" ,", ",");
+                    linea[i] = linea[i].Trim();
+                    string[] lineaAudiovisual = linea[i].Split(',');
+                    Audiovisual nuevoAudiovisual = new Audiovisual();
+                    nuevoAudiovisual.Tipo = lineaAudiovisual[0];
+                    nuevoAudiovisual.Nombre = lineaAudiovisual[1];
+                    nuevoAudiovisual.Anio = Convert.ToInt16(lineaAudiovisual[2]);
+                    nuevoAudiovisual.Genero = lineaAudiovisual[3];
+                    nuevoAudiovisual.AudioVisualID = db.IDActual++;
+                    Entry<string, Audiovisual> entry = new Entry<string,  Audiovisual>();
+                    if (llave == 0)
+                    {
+                        entry.LLave = nuevoAudiovisual.Nombre;
+                    }
+                    else if(llave == 1)
+                    {
+                        entry.LLave = nuevoAudiovisual.Genero.PadRight(20) + "_" + nuevoAudiovisual.Nombre;
+                    }
+                    else
+                    {
+                        entry.LLave = nuevoAudiovisual.Anio.ToString().PadRight(4) + "_" + nuevoAudiovisual.Nombre;
+                    }
+                        entry.Apuntador = nuevoAudiovisual;
+                        Nodo.Entradas.Add(entry);
+                    
+                    
+                }
+            }
+            for (int i = 2; i < (2 + grado); i++)
+            {
+                if (!(linea[i] == String.Format("{0, -3}", "")))
+                {
+                    LeerArbolAudiovisual(lines, (Convert.ToInt16(linea[i]) + 2), grado, Nodo, arbol, llave);
+                }
+            }
+            if (nodoPadre == null)
+            {
+                arbol.Raiz = Nodo;
+            }
+            else
+            {
+                nodoPadre.Hijos.Add(Nodo);
+            }
+        }
         public ActionResult About()
         {
             return View();

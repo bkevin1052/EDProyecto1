@@ -11,7 +11,7 @@ namespace LibreriaDeClases.Clases
     public class BArbol <TKey, T> where TKey : IComparable<TKey>
     {
 
-        public BNodo<TKey, T> Raiz { get; private set; }
+        public BNodo<TKey, T> Raiz { get; set; }
 
         public int Grado { get; private set; }
 
